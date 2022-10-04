@@ -35,6 +35,10 @@ namespace TribalWarsClone.Models.Buildings
         public void onUpgradeComplete(Object source, ElapsedEventArgs e)
         {
             Console.WriteLine("IronFactory Upgraded");
+            CurrentLevel++;
+            ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
+            ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
+            ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
         }
 
         public void upgrade(BuildList buildList)
@@ -42,10 +46,7 @@ namespace TribalWarsClone.Models.Buildings
 
             BuildItem bi = new BuildItem(this.ProductionCost, onUpgradeComplete);
             buildList.AddItem(bi);
-            CurrentLevel++;
-            ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
-            ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
-            ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
+            
         }
 
         public void printStats()
