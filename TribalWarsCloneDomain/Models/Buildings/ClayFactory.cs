@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace TribalWarsClone.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings
 {
-    internal class ClayFactory : Building,IUpgradable
+    public class ClayFactory : Building,IUpgradable
     {
         public int MaxLevel { get; }
         public Cost ProductionCost { get; set; }

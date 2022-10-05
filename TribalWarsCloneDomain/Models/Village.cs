@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TribalWarsClone.Models.Buildings;
+using TribalWarsCloneDomain.Models.Buildings;
 
-namespace TribalWarsClone.Models
+namespace TribalWarsCloneDomain.Models
 {
-    internal class Village
+    public class Village
     {
 
         public long Id { get; set; }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TribalWarsClone.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings
 {
-    internal interface IUpgradable
+    public interface IUpgradable
     {
-        public int MaxLevel { get;  }
+        int MaxLevel { get;  }
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
 

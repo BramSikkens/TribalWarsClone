@@ -10,8 +10,8 @@ namespace TribalWarsClone.Models.Buildings
     {
         public int MaxLevel { get; }
         public int PopulationCount { get; set; }
-        public ProductionCost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ProductionCost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Cost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Farm()
         {
@@ -30,7 +30,7 @@ namespace TribalWarsClone.Models.Buildings
             throw new NotImplementedException();
         }
 
-        public void upgrade(BuildList buildList)
+        public void upgrade(BuildList buildList,Warehouse warehouse)
         {
             throw new NotImplementedException();
         }

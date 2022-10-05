@@ -1,9 +1,10 @@
 ﻿
+using System;
 using System.Timers;
 
-namespace TribalWarsClone.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings
 {
-    internal class Warehouse:Building,IUpgradable
+    public class Warehouse:Building,IUpgradable
     {
         public int MaxLevel { get; }
         public int ClayCount { get; set; }

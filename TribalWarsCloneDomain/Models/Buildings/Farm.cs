@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TribalWarsClone.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings
 {
-    internal class HeadQuarters : Building, IUpgradable
+    public class Farm : Building, IUpgradable
     {
-        public int MaxLevel { get; set; }
+        public int MaxLevel { get; }
+        public int PopulationCount { get; set; }
         public Cost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public HeadQuarters()
+        public Farm()
         {
             CurrentLevel = 1;
-            MaxLevel = 20;
+            MaxLevel = 20; 
+            PopulationCount = 240;
         }
 
         public void downgrade()
@@ -25,8 +27,7 @@ namespace TribalWarsClone.Models.Buildings
 
         public void upgrade()
         {
-         
-          
+            throw new NotImplementedException();
         }
 
         public void upgrade(BuildList buildList,Warehouse warehouse)

@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace TribalWarsClone.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings
 {
-    internal class ClayFactory : Building,IUpgradable
+    public class WoodFactory : Building,IUpgradable
     {
+
         public int MaxLevel { get; }
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
 
-
-        public ClayFactory(Cost initialCost, int maxLevel)
+        public WoodFactory(Cost initialCost,int maxLevel)
         {
             CurrentLevel = 0;
             ProductionCost = initialCost;
@@ -28,7 +28,7 @@ namespace TribalWarsClone.Models.Buildings
 
         public void onUpgradeComplete(Object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("IronFactory Upgraded");
+            Console.WriteLine("WoodFactory Upgraded");
             CurrentLevel++;
             ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
             ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
@@ -53,12 +53,7 @@ namespace TribalWarsClone.Models.Buildings
                 Console.WriteLine("Not enough Resources");
             }
 
-        
-       
-
         }
-
-
         public void printStats()
         {
             Console.WriteLine("CurrentLevel:" + CurrentLevel);

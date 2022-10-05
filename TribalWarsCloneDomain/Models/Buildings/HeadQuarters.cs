@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TribalWarsClone.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings
 {
-    internal class HeadQuarters : Building, IUpgradable
+    public class HeadQuarters : Building, IUpgradable
     {
         public int MaxLevel { get; set; }
         public Cost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

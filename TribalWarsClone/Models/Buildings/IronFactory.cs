@@ -10,21 +10,14 @@ namespace TribalWarsClone.Models.Buildings
     internal class IronFactory : Building, IUpgradable
     {
         public int MaxLevel { get; }
-        public ProductionCost ProductionCost { get; set; }
-        public ProductionCost DestructionReturn { get; set; }
+        public Cost ProductionCost { get; set; }
+        public Cost DestructionReturn { get; set; }
 
-        public IronFactory()
+        public IronFactory(Cost initialCost, int maxLevel)
         {
             CurrentLevel = 0;
-            MaxLevel = 20;
-            ProductionCost = new ProductionCost
-            {
-                ClayCost = 100,
-                IronCost = 60,
-                WoodCost = 120,
-                ProductionTime = 500
-
-            };
+            MaxLevel = maxLevel;
+            ProductionCost = initialCost;
         }
 
         public void downgrade()
@@ -34,20 +27,37 @@ namespace TribalWarsClone.Models.Buildings
 
         public void onUpgradeComplete(Object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("IronFactory Upgraded");
             CurrentLevel++;
+            Console.WriteLine("IronFactory Upgraded");
             ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
             ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
             ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
+            ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
         }
 
-        public void upgrade(BuildList buildList)
+
+
+        //When upgrading we put the building in a buildlist and take out resources out of the warehouse
+        public void upgrade(BuildList buildList, Warehouse warehouse)
         {
+            //First we check if there is enough in the warehouse
+            if (warehouse.checkEnoughResources(ProductionCost))
+            {
+               
+                //We create a buildTask(ITem) 
+                BuildItem bi = new BuildItem(this.ProductionCost, onUpgradeComplete);
+                //And add it to the given list
+                buildList.AddItem(bi);
+                //Remove cost from Warehouse
+                warehouse.takeOutResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
+            }
+            else
+            {
+                Console.WriteLine("Not enough Resources");
+            }
 
-            BuildItem bi = new BuildItem(this.ProductionCost, onUpgradeComplete);
-            buildList.AddItem(bi);
-            
         }
+
 
         public void printStats()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TribalWarsClone.Models
 {
-    internal class ProductionCost
+    internal class Cost
     {
         public int WoodCost { get; set; }
         public int IronCost { get; set; }

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using TribalWarsClone.Models.Buildings;
+using TribalWarsCloneDomain.Models.Buildings;
 
-namespace TribalWarsClone.Models
+namespace TribalWarsCloneDomain.Models
 {
-    internal class BuildList
+    public class BuildList
     {
         private List<BuildItem> items;
         public BuildList()

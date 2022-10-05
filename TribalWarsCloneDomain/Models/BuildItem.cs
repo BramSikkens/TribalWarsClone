@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace TribalWarsClone.Models
+namespace TribalWarsCloneDomain.Models
 {
-    internal class BuildItem
+    public class BuildItem
     {
 
         public System.Timers.Timer timer;

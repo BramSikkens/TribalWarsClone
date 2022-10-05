@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace TribalWarsClone.Models.Buildings
 {
@@ -10,13 +11,14 @@ namespace TribalWarsClone.Models.Buildings
     {
 
         public int MaxLevel { get; }
-        public ProductionCost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ProductionCost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Cost ProductionCost { get; set; }
+        public Cost DestructionReturn { get; set; }
 
-        public WoodFactory()
+        public WoodFactory(Cost initialCost,int maxLevel)
         {
             CurrentLevel = 0;
-            MaxLevel = 20;
+            ProductionCost = initialCost;
+            MaxLevel = maxLevel;
         }
 
         public void downgrade()
@@ -24,14 +26,40 @@ namespace TribalWarsClone.Models.Buildings
             throw new NotImplementedException();
         }
 
-        public void upgrade()
+        public void onUpgradeComplete(Object source, ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("WoodFactory Upgraded");
+            CurrentLevel++;
+            ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
+            ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
+            ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
+            ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
+
         }
 
-        public void upgrade(BuildList buildList)
+        //When upgrading we put the building in a buildlist and take out resources out of the warehouse
+        public void upgrade(BuildList buildList, Warehouse warehouse)
         {
-            throw new NotImplementedException();
+            //First we check if there is enough in the warehouse
+            if (warehouse.checkEnoughResources(ProductionCost))
+            {
+                //We create a buildTask(ITem) 
+                BuildItem bi = new BuildItem(this.ProductionCost, onUpgradeComplete);
+                //And add it to the given list
+                buildList.AddItem(bi);
+            }
+            else
+            {
+                Console.WriteLine("Not enough Resources");
+            }
+
+        }
+        public void printStats()
+        {
+            Console.WriteLine("CurrentLevel:" + CurrentLevel);
+            Console.WriteLine("Clay Cost Upgrade:" + ProductionCost.ClayCost);
+            Console.WriteLine("Iron Cost Upgrade:" + ProductionCost.IronCost);
+            Console.WriteLine("Wood Cost Upgrade:" + ProductionCost.WoodCost);
         }
     }
 }
