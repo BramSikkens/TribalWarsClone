@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TribalWarsClone", "TribalWarsClone\TribalWarsClone.csproj", "{8FA63965-959E-4C46-8B59-E1AA78174970}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TribalWarsCloneConsole", "TribalWarsClone\TribalWarsCloneConsole.csproj", "{8FA63965-959E-4C46-8B59-E1AA78174970}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TribalWarsCloneDomain", "TribalWarsCloneDomain\TribalWarsCloneDomain.csproj", "{B1A8FBA5-B24B-4904-9C70-8685839577D9}"
 EndProject
