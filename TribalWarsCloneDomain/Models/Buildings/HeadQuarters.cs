@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
@@ -23,13 +24,13 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
-        public void upgrade()
+ 
+        public void upgrade(BuildList buildList,Warehouse warehouse, Farm farm)
         {
-         
-          
+            throw new NotImplementedException();
         }
 
-        public void upgrade(BuildList buildList,Warehouse warehouse)
+        public void onUpgradeComplete(object source, ElapsedEventArgs e)
         {
             throw new NotImplementedException();
         }

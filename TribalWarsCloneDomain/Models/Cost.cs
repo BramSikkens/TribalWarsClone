@@ -12,5 +12,6 @@ namespace TribalWarsCloneDomain.Models
         public int IronCost { get; set; }
         public int ClayCost { get; set; }
         public int ProductionTime { get; set; }
+        public int VillagerCost { get; set; }
     }
 }

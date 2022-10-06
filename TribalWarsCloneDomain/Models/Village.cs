@@ -19,28 +19,29 @@ namespace TribalWarsCloneDomain.Models
         public IronFactory IronFactory { get; set; }
         public WoodFactory WoodFactory { get; set; }
         public ClayFactory ClayFactory { get; set; }
-
-        public IDictionary<String,Building> Buildings { get; set; }
+        public Farm Farm { get; set; }
+     
 
         public Village()
         {
-            Warehouse = new Warehouse();
-            BuildList = new BuildList();
 
-
+            Farm = new Farm();
+            BuildList = new BuildList(Farm);
             IronFactory = new IronFactory(new Cost
             {
                 ClayCost = 1,
                 IronCost =1,
                 WoodCost = 1,
-                ProductionTime =1000
+                VillagerCost = 10,
+                ProductionTime =100000
             },20);
             WoodFactory = new WoodFactory(new Cost
             {
                 ClayCost = 1,
                 IronCost = 1,
                 WoodCost = 1,
-                ProductionTime = 1000
+                VillagerCost = 10,
+                ProductionTime = 100000
             }, 20);
 
             ClayFactory = new ClayFactory(new Cost
@@ -48,28 +49,29 @@ namespace TribalWarsCloneDomain.Models
                 ClayCost = 1,
                 IronCost = 1,
                 WoodCost = 1,
-                ProductionTime = 1000
+                VillagerCost = 10,
+                ProductionTime = 100000
             }, 20);
-       
-            
-            //HeadQuarters hq = new HeadQuarters();
 
-            //Buildings.Add(nameof(HeadQuarters), hq);
-            //Buildings.Add(nameof(Farm), new Farm());
-            //Buildings.Add(nameof(ClayFactory), new ClayFactory());
-            //Buildings.Add(nameof(WoodFactory), new WoodFactory());
-            //Buildings.Add(nameof(IronFactory), new IronFactory());
+            Warehouse = new Warehouse(ClayFactory,IronFactory,WoodFactory);
+
+          
         }
 
         public void printBuildings()
         {
             Console.WriteLine("------ClayFactory------");
-            ClayFactory.printStats();
+            ClayFactory.printBuildingInfo();
+            Console.WriteLine();
             Console.WriteLine("------WoodFactory------");
-            WoodFactory.printStats();
+            WoodFactory.printBuildingInfo();
+            Console.WriteLine();
             Console.WriteLine("------IronFactory------");
-            IronFactory.printStats();
+            IronFactory.printBuildingInfo();
+            Console.WriteLine();
         }
+
+
     }
 
     

@@ -11,16 +11,21 @@ namespace TribalWarsCloneDomain.Models
 {
     public class BuildList
     {
-        private List<BuildItem> items;
-        public BuildList()
+        private List<ConstructionItem> items;
+        public Farm Farm { get; set; }
+        public BuildList(Farm farm)
         {
-            items = new List<BuildItem>();
+            items = new List<ConstructionItem>();
+            Farm = farm;
         }
 
         //When complete start the next item in the list
         void onCompleted(Object source, ElapsedEventArgs e)
         {
             Console.WriteLine("Object Finished");
+            //Return villagers to Farm
+            Farm.PopulationInFarm += items[0].Cost.VillagerCost;
+            //And then remove item from list
             items.RemoveAt(0); 
             if(items.Count > 0)
             {
@@ -32,11 +37,13 @@ namespace TribalWarsCloneDomain.Models
             }
         }
 
-        public void AddItem(BuildItem item)
+        public void AddItem(ConstructionItem item)
         {
+
            
             items.Add(item);
-            items[0].timer.Elapsed += this.onCompleted;
+            Farm.PopulationInFarm = Farm.PopulationInFarm - item.Cost.VillagerCost;
+            items.Last().timer.Elapsed += this.onCompleted;
 
             if (items.Count == 1)
             {
@@ -47,6 +54,14 @@ namespace TribalWarsCloneDomain.Models
                 Console.WriteLine("Object added to Queue");
             }
        
+        }
+
+        public void printItemsInList()
+        {
+            items.ForEach(e =>
+            {
+                e.printConstructionItem();
+            });
         }
 
     
