@@ -24,6 +24,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             CurrentLevel++;
             IronGain++;
+            DestructionReturn = ProductionCost;
             Console.WriteLine("IronFactory Upgraded");
             ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
             ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);

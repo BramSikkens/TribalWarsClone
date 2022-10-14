@@ -12,15 +12,16 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int MaxLevel { get; }
         public int PopulationCount { get; set; }
         public int PopulationInFarm { get; set; }
-        public Cost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Cost ProductionCost { get; set; }
+        public Cost DestructionReturn { get; set; }
 
-        public Farm()
+        public Farm(Cost initialCost)
         {
             CurrentLevel = 1;
             MaxLevel = 20; 
             PopulationCount = 240;
             PopulationInFarm = 240;
+            ProductionCost = initialCost;
         }
 
         public void downgrade()
@@ -29,7 +30,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
       
-        public void upgrade(BuildList buildList,Warehouse warehouse,Farm farm)
+        public void upgrade(ConstructionList buildList,Warehouse warehouse,Farm farm)
         {
             //First we check if there is enough in the warehouse
             if (warehouse.checkEnoughResources(ProductionCost))
@@ -49,12 +50,23 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public void withdrawPopulation(int populationAmount)
         {
-            
+            PopulationInFarm = PopulationInFarm - populationAmount;
         }
+
+        public Boolean checkEnoughResources(Cost cost)
+        {
+            if (cost.VillagerCost > PopulationInFarm)
+            {
+                return false;
+            }
+            return true;
+        }
+
 
         public void onUpgradeComplete(object source, ElapsedEventArgs e)
         {
             CurrentLevel++;
+            DestructionReturn = ProductionCost;
             PopulationCount += 100;
             PopulationInFarm += 100;
             PopulationInFarm += ProductionCost.VillagerCost;

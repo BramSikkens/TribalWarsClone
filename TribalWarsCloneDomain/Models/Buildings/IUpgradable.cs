@@ -13,7 +13,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
 
-        void upgrade(BuildList buildList,Warehouse warehouse,Farm farm);
+        void upgrade(ConstructionList buildList,Warehouse warehouse,Farm farm);
         void onUpgradeComplete(Object source, ElapsedEventArgs e);
         void downgrade();
 

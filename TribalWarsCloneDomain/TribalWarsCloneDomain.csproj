@@ -9,7 +9,6 @@
     <None Remove="Models\Buildings\Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Models\Buildings\Resources\" />
   </ItemGroup>
 </Project>

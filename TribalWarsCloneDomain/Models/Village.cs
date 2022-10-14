@@ -15,18 +15,28 @@ namespace TribalWarsCloneDomain.Models
         public int currentLevel { get; set; }
         public Coordinates Location { get; set; }
         public Warehouse Warehouse { get; set; }
-        public BuildList BuildList { get; set; }
+        public ConstructionList BuildList { get; set; }
         public IronFactory IronFactory { get; set; }
         public WoodFactory WoodFactory { get; set; }
         public ClayFactory ClayFactory { get; set; }
+        public Smithy Smithy { get; set; }
         public Farm Farm { get; set; }
+        public RallyPoint RallyPoint { get; set; }
      
 
         public Village()
         {
 
-            Farm = new Farm();
-            BuildList = new BuildList(Farm);
+            Farm = new Farm(new Cost
+            {
+                ClayCost = 1,
+                IronCost = 1,
+                WoodCost = 1,
+                VillagerCost = 10,
+                ProductionTime = 100000
+            });
+
+            BuildList = new ConstructionList(Farm);
             IronFactory = new IronFactory(new Cost
             {
                 ClayCost = 1,
@@ -54,7 +64,16 @@ namespace TribalWarsCloneDomain.Models
             }, 20);
 
             Warehouse = new Warehouse(ClayFactory,IronFactory,WoodFactory);
+            Smithy = new Smithy(new Cost
+            {
+                ClayCost = 1,
+                IronCost = 1,
+                WoodCost = 1,
+                VillagerCost = 10,
+                ProductionTime = 100000
+            });
 
+            RallyPoint = new RallyPoint();
           
         }
 

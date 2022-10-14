@@ -9,7 +9,6 @@ namespace TribalWarsCloneDomain.Models
 {
     public class ConstructionItem
     {
-
         public System.Timers.Timer timer;
         public DateTime StartTime { get; set; }
         public DateTime endTime { get; set; }
@@ -41,7 +40,7 @@ namespace TribalWarsCloneDomain.Models
 
         public void printConstructionItem()
         {
-            Console.WriteLine("Status:{0} | Starttime:{1} | koekek:{2} |Time Left: {3}", Status, StartTime.ToString(), endTime.ToString(),(endTime - DateTime.Now));
+            Console.WriteLine("Status:{0} | Starttime:{1} | EndTime:{2} |Time Left: {3}", Status, StartTime.ToString(), endTime.ToString(),(endTime - DateTime.Now));
         }
     }
 }

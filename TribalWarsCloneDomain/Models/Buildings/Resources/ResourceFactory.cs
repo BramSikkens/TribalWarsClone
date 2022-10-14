@@ -25,10 +25,13 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
-        public void upgrade(BuildList buildList, Warehouse warehouse, Farm farm)
+        public void upgrade(ConstructionList buildList, Warehouse warehouse, Farm farm)
         {
+            Boolean enoughResources = warehouse.checkEnoughResources(ProductionCost);
+            Boolean enoughVillagers = farm.checkEnoughResources(ProductionCost);
+
             //First we check if there is enough in the warehouse
-            if (warehouse.checkEnoughResources(ProductionCost))
+            if (enoughResources && enoughVillagers)
             {
                 //We create a buildTask(ITem) 
                 ConstructionItem bi = new ConstructionItem(this.ProductionCost, onUpgradeComplete);
@@ -36,6 +39,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
                 warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
+                farm.withdrawPopulation(ProductionCost.VillagerCost);
+
             }
             else
             {

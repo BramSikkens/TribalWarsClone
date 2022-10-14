@@ -25,7 +25,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
  
-        public void upgrade(BuildList buildList,Warehouse warehouse, Farm farm)
+        public void upgrade(ConstructionList buildList,Warehouse warehouse, Farm farm)
         {
             throw new NotImplementedException();
         }

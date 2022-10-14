@@ -122,7 +122,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
          
         }
 
-        public void upgrade(BuildList buildList,Warehouse warehouse, Farm farm)
+        public void upgrade(ConstructionList buildList,Warehouse warehouse, Farm farm)
         {
             //First we check if there is enough in the warehouse
             if (warehouse.checkEnoughResources(ProductionCost))

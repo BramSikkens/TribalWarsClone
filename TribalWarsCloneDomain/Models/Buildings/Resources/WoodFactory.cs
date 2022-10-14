@@ -24,6 +24,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public override void onUpgradeComplete(Object source, ElapsedEventArgs e)
         {
             Console.WriteLine("WoodFactory Upgraded");
+            DestructionReturn = ProductionCost; 
             CurrentLevel++;
             WoodGain++;
             ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
