@@ -20,11 +20,15 @@ namespace TribalWarsCloneDomain.Models
         }
 
         //When complete start the next item in the list
-       public virtual void onCompleted(Object source, ElapsedEventArgs e)
+       public  void onCompleted(Object source, ElapsedEventArgs e)
         {
             Console.WriteLine("Object Finished");
+            
+            
             //Return villagers to Farm
-            Farm.PopulationInFarm += items[0].Cost.VillagerCost;
+            //Farm.PopulationInFarm += items[0].Cost.VillagerCost;
+
+
             //And then remove item from list
             items.RemoveAt(0); 
             if(items.Count > 0)
@@ -40,7 +44,6 @@ namespace TribalWarsCloneDomain.Models
         public void AddItem(ConstructionItem item)
         {
 
-           
             items.Add(item);
             items.Last().timer.Elapsed += this.onCompleted;
 
@@ -48,12 +51,14 @@ namespace TribalWarsCloneDomain.Models
             {
                 items[0].start();
             }
-            else
-            {
-                Console.WriteLine("Object added to Queue");
-            }
+
+            
+           
+            
        
         }
+
+ 
 
         public void printItemsInList()
         {

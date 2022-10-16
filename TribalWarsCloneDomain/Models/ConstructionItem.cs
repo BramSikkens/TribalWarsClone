@@ -31,11 +31,11 @@ namespace TribalWarsCloneDomain.Models
 
         public void start()
         {
-           timer.Enabled = true;
+            timer.Enabled = true;
             StartTime = DateTime.Now;
             endTime = StartTime.AddMilliseconds(Cost.ProductionTime);
             Status = "Started";
-            Console.WriteLine("Building Started");
+            printConstructionItem();
         }
 
         public void printConstructionItem()

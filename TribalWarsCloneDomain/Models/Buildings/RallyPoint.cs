@@ -1,24 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TribalWarsCloneDomain.Models.Soldiers;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public class RallyPoint:Building
+    public class RallyPoint : Building
     {
 
-        public int SpearSoldierAmount { get; set; }
+        public Dictionary<String, int> SoldierAmounts { get; set; }
 
 
         public RallyPoint()
         {
             CurrentLevel = 1;
-            SpearSoldierAmount = 0;
+            SoldierAmounts = new Dictionary<String, int>();
+            SoldierAmounts.Add(nameof(SpearSoldier), 0);
+
         }
 
-        public void printInfo()
+
+        public void AddSoldierToRallyPoint(string type, int amount)
         {
-            Console.WriteLine("SpearAmount:{0}", SpearSoldierAmount);
+            SoldierAmounts[type] += amount; 
+        }
+
+        public void printBuildingInfo()
+        {
+            foreach(var item in SoldierAmounts)
+            {
+                Console.WriteLine("{0}:{1}", item.Key, item.Value);
+            }
         }
     }
 }

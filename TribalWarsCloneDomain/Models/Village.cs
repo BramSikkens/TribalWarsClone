@@ -24,8 +24,10 @@ namespace TribalWarsCloneDomain.Models
         public RallyPoint RallyPoint { get; set; }
      
 
-        public Village()
+        public Village(string name)
         {
+            currentLevel = 0;
+            Name = name;
 
             Farm = new Farm(new Cost
             {
@@ -44,7 +46,7 @@ namespace TribalWarsCloneDomain.Models
                 WoodCost = 1,
                 VillagerCost = 10,
                 ProductionTime =100000
-            },20);
+            },20,Farm,Warehouse);
             WoodFactory = new WoodFactory(new Cost
             {
                 ClayCost = 1,
@@ -52,7 +54,7 @@ namespace TribalWarsCloneDomain.Models
                 WoodCost = 1,
                 VillagerCost = 10,
                 ProductionTime = 100000
-            }, 20);
+            }, 20, Farm, Warehouse);
 
             ClayFactory = new ClayFactory(new Cost
             {
@@ -61,9 +63,10 @@ namespace TribalWarsCloneDomain.Models
                 WoodCost = 1,
                 VillagerCost = 10,
                 ProductionTime = 100000
-            }, 20);
+            }, 20, Farm, Warehouse);
 
             Warehouse = new Warehouse(ClayFactory,IronFactory,WoodFactory);
+            RallyPoint = new RallyPoint();
             Smithy = new Smithy(new Cost
             {
                 ClayCost = 1,
@@ -71,9 +74,9 @@ namespace TribalWarsCloneDomain.Models
                 WoodCost = 1,
                 VillagerCost = 10,
                 ProductionTime = 100000
-            });
+            },RallyPoint,Farm,Warehouse) ;
 
-            RallyPoint = new RallyPoint();
+            
           
         }
 
@@ -90,6 +93,10 @@ namespace TribalWarsCloneDomain.Models
             Console.WriteLine();
         }
 
+        public void showInfo()
+        {
+            Console.WriteLine("VillageName:{0}", Name);
+        }
 
     }
 

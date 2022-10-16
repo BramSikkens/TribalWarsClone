@@ -12,6 +12,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int MaxLevel { get; set; }
         public Cost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Farm Farm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Warehouse Warehouse { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public HeadQuarters()
         {
@@ -31,6 +33,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
         public void onUpgradeComplete(object source, ElapsedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void upgrade(ConstructionList buildList)
         {
             throw new NotImplementedException();
         }

@@ -9,6 +9,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
     public abstract class Building
     {
         public int CurrentLevel { get; set; }
+
+      
        
     }
 }

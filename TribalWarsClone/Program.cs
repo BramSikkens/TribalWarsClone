@@ -4,9 +4,9 @@ using TribalWarsCloneDomain.Models;
 using TribalWarsCloneDomain.Testing;
 using System.Reflection.Metadata.Ecma335;
 using System.Timers;
+using TribalWarsCloneDomain.Models.Soldiers;
 
-
-//Village v = new Village();
+Village v = null;
 
 //displayOptions();
 //string input = Console.ReadLine();
@@ -16,21 +16,21 @@ using System.Timers;
 //while (input != "exit")
 //{
 
-//    if(input == "1")
+//    if (input == "1")
 //    {
 //        v.printBuildings();
 //    }
 //    if (input == "2")
 //    {
-//        v.IronFactory.upgrade(v.BuildList,v.Warehouse,v.Farm);
+//        v.IronFactory.upgrade(v.BuildList);
 //    }
 //    if (input == "3")
 //    {
-//        v.WoodFactory.upgrade(v.BuildList, v.Warehouse,v.Farm);
+//        v.WoodFactory.upgrade(v.BuildList);
 //    }
 //    if (input == "4")
 //    {
-//        v.ClayFactory.upgrade(v.BuildList, v.Warehouse,v.Farm);
+//        v.ClayFactory.upgrade(v.BuildList);
 //    }
 
 //    if (input == "5")
@@ -38,15 +38,15 @@ using System.Timers;
 //        v.Warehouse.PrintResources();
 //    }
 
-//    if(input == "6")
+//    if (input == "6")
 //    {
-//        v.Warehouse.upgrade(v.BuildList, v.Warehouse,v.Farm);
+//        v.Warehouse.upgrade(v.BuildList, v.Warehouse, v.Farm);
 //    }
-//    if(input == "7")
+//    if (input == "7")
 //    {
 //        v.BuildList.printItemsInList();
 //    }
-//    if(input == "8")
+//    if (input == "8")
 //    {
 //        v.Farm.printFarmInfo();
 //    }
@@ -57,12 +57,12 @@ using System.Timers;
 
 //    if (input == "10")
 //    {
-//        v.Smithy.developSpearSoldier();
+//        v.Smithy.developSoldier(nameof(SpearSoldier));
 //    }
 
 //    if (input == "11")
 //    {
-//        v.Smithy.CreateSpearSoldier(10, v.RallyPoint);
+//        v.Smithy.TrainSoldier(nameof(SpearSoldier), 1);
 //    }
 
 //    if (input == "12")
@@ -78,7 +78,8 @@ using System.Timers;
 
 
 
-//void displayOptions(){
+//void displayOptions()
+//{
 //    Console.WriteLine("Chooose Option");
 //    Console.WriteLine("1) Print Buildings");
 //    Console.WriteLine("2) Upgrade IronFactory");
@@ -97,34 +98,273 @@ using System.Timers;
 
 //}
 
-void onCompleted(Object source, ElapsedEventArgs onCompleted)
+World world = new World(); 
+
+start();
+
+
+void start()
 {
-    Console.WriteLine("The whole list is ready!");
+    displayWorldMenu();
+
 }
 
-void onCompletedLeaf(Object source, ElapsedEventArgs onCompleted)
+void displayWorldMenu()
 {
-    Console.WriteLine("Leaf is ready");
+    Console.WriteLine("------World----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("2)Create New Village");
+    Console.WriteLine("3)Change Village");
+    Console.WriteLine("exit");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": Console.WriteLine("not yet");break;
+            case "2": createNewVillage();break;
+            case "3": changeVillage();break;
+       
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
 }
-Component SoldiersCreationList = new CreationComposite(new Cost { ClayCost = 0, IronCost = 0, WoodCost = 0, ProductionTime = 1, VillagerCost = 0 }, onCompleted);
 
-Component SoldierCreation1 = new CreationLeaf(new Cost { ClayCost = 1, IronCost = 1, WoodCost = 1, ProductionTime = 10000, VillagerCost = 1 },onCompletedLeaf);
-Component SoldierCreation2 = new CreationLeaf(new Cost { ClayCost = 1, IronCost = 1, WoodCost = 1, ProductionTime = 10000, VillagerCost = 1 }, onCompletedLeaf);
-Component SoldierCreation3 = new CreationLeaf(new Cost { ClayCost = 1, IronCost = 1, WoodCost = 1, ProductionTime = 10000, VillagerCost = 1 }, onCompletedLeaf);
-Component SoldierCreation4 = new CreationLeaf(new Cost { ClayCost = 1, IronCost = 1, WoodCost = 1, ProductionTime = 10000, VillagerCost = 1 }, onCompletedLeaf);
-Component SoldierCreation5 = new CreationLeaf(new Cost { ClayCost = 1, IronCost = 1, WoodCost = 1, ProductionTime = 10000, VillagerCost = 1 }, onCompletedLeaf);
-                                                                                                                        
-
-SoldiersCreationList.Add(SoldierCreation1);
-SoldiersCreationList.Add(SoldierCreation2);
-SoldiersCreationList.Add(SoldierCreation3);
-SoldiersCreationList.Add(SoldierCreation4);
-SoldiersCreationList.Add(SoldierCreation5);
-
-SoldiersCreationList.Start();
-
-string input = Console.ReadLine();
-while (input != "exit")
+void createNewVillage()
 {
-    input = Console.ReadLine();
+    
+        Console.WriteLine("Hello! Welcome to TribalClone");
+        Console.Write("Give me your name");
+        string name = Console.ReadLine();
+        Console.Write("Tell me the name of your village: ");
+        string newVillageName = Console.ReadLine();
+        world.createNewVillage(name, newVillageName);
+        Console.WriteLine(newVillageName + " is created");
+        v = world.Villages[name];
+    
+    displayVillageMenu();
+}
+
+void changeVillage()
+{
+    Console.WriteLine("------World-----");
+    Console.Write("Give your name to set Village: ");
+    string name = Console.ReadLine();
+
+    if (world.Villages.ContainsKey(name))
+    {
+        v = world.Villages[name];
+        displayVillageMenu();
+    }
+    else
+    {
+        Console.WriteLine("Village does not exist");
+        displayWorldMenu();
+        
+    }
+
+  
+ 
+
+}
+
+void displayVillageMenu()
+{
+
+    Console.WriteLine("------Village-----"); 
+    Console.WriteLine("1)Show VillageInfo");
+    Console.WriteLine("2)IronFactory");
+    Console.WriteLine("3)ClayFactory");
+    Console.WriteLine("4)WoodFactory");
+    Console.WriteLine("5)Warehouse");
+    Console.WriteLine("6)Smithy");
+    Console.WriteLine("7)RallyPoint");
+    Console.WriteLine("8)Change Village");
+    Console.WriteLine("exit");
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.showInfo();break;
+            case "2": displayIronFactoryMenu(); break;
+            case "3": displayClayFactoryMenu(); break;
+            case "4": displayWoodFactoryMenu(); break;
+            case "5":displayWarehouseMenu(); break;
+            case "6": displaySmithyMenu(); break;
+            case "7":displayRallyPointMenu(); break;
+            case "8":displayWorldMenu();break;
+            
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
+}
+
+void displayIronFactoryMenu()
+{
+
+    Console.WriteLine("------IronFactory----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("2)Upgrade");
+    Console.WriteLine("3)Downgrade");
+    Console.WriteLine("4)Go Back");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.IronFactory.printBuildingInfo();break;
+            case "2": v.IronFactory.upgrade(v.BuildList);break;
+            case "3": v.IronFactory.downgrade();break;
+            case "4": displayVillageMenu(); break;
+            
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
+}
+
+void displayWoodFactoryMenu()
+{
+
+    Console.WriteLine("------WoodFactory----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("2)Upgrade");
+    Console.WriteLine("3)Downgrade");
+    Console.WriteLine("4)Go Back");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.WoodFactory.printBuildingInfo(); break;
+            case "2": v.WoodFactory.upgrade(v.BuildList); break;
+            case "3": v.WoodFactory.downgrade(); break;
+            case "4": displayVillageMenu(); break;
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
+}
+
+void displayClayFactoryMenu()
+{
+
+    Console.WriteLine("------ClayFactory----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("2)Upgrade");
+    Console.WriteLine("3)Downgrade");
+    Console.WriteLine("4)Go Back");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.ClayFactory.printBuildingInfo(); break;
+            case "2": v.ClayFactory.upgrade(v.BuildList); break;
+            case "3": v.ClayFactory.downgrade(); break;
+            case "4": displayVillageMenu(); break;
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
+}
+
+void displayWarehouseMenu()
+{
+
+    Console.WriteLine("------Warehouse----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("2)Upgrade");
+    Console.WriteLine("3)Downgrade");
+    Console.WriteLine("4)Go Back");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.Warehouse.printBuildingInfo(); break;
+            case "2": v.Warehouse.upgrade(v.BuildList); break;
+            case "3": v.Warehouse.downgrade(); break;
+            case "4": displayVillageMenu(); break;
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
+}
+
+void displaySmithyMenu()
+{
+    Console.WriteLine("------Smithy----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("2)Upgrade");
+    Console.WriteLine("3)Downgrade");
+    Console.WriteLine("4)Develop Spear");
+    Console.WriteLine("5)Train Spear");
+    Console.WriteLine("6)Go Back");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.Smithy.printBuildingInfo(); break;
+            case "2": v.Smithy.upgrade(v.BuildList); break;
+            case "3": v.Smithy.downgrade(); break;
+            case "4": v.Smithy.developSoldier(nameof(SpearSoldier));break;
+            case "5":
+                {
+                    Console.Write("Amount");
+                    string amount = Console.ReadLine();
+                    v.Smithy.TrainSoldier(nameof(SpearSoldier),int.Parse(amount));
+            
+                    
+                };break;
+            case "6": displayVillageMenu(); break;
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
+}
+
+void displayRallyPointMenu()
+{
+
+    Console.WriteLine("------RallyPoint----");
+    Console.WriteLine("1)Show Info");
+    Console.WriteLine("4)Go Back");
+
+    string input = "";
+    while (input != "exit")
+    {
+        switch (input)
+        {
+            case "1": v.RallyPoint.printBuildingInfo(); break;
+            case "4": displayVillageMenu(); break;
+
+        }
+
+        Console.Write("input:");
+        input = Console.ReadLine();
+    }
 }

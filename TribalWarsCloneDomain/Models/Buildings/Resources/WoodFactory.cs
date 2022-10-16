@@ -12,11 +12,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public int WoodGain { get; set; }
 
-        public WoodFactory(Cost initialCost,int maxLevel):base(initialCost,maxLevel)
+        public WoodFactory(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
         {
-            CurrentLevel = 1;
-            ProductionCost = initialCost;
-            MaxLevel = maxLevel;
             WoodGain = 1;
         }
 
@@ -24,7 +21,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public override void onUpgradeComplete(Object source, ElapsedEventArgs e)
         {
             Console.WriteLine("WoodFactory Upgraded");
-            DestructionReturn = ProductionCost; 
+            DestructionReturn = ProductionCost;
+
+            //return villagers
+            Farm.PopulationInFarm += ProductionCost.VillagerCost;
+
             CurrentLevel++;
             WoodGain++;
             ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);

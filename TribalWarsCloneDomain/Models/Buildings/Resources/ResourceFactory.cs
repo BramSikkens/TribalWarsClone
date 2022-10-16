@@ -10,12 +10,19 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
 
+        public Farm Farm { get; set; }
+        public Warehouse Warehouse { get; set; }
 
-        public ResourceFactory(Cost initialCost,int maxLevel)
+        public ResourceFactory(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse)
         {
             CurrentLevel = 1;
             MaxLevel = maxLevel;
             ProductionCost = initialCost;
+
+            //Overal moet ik precies Farm en Warehouse meegeven?
+            //Kan dit anders;
+            Warehouse = warehouse;
+            Farm = farm;
      
         }
 
@@ -25,10 +32,10 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
-        public void upgrade(ConstructionList buildList, Warehouse warehouse, Farm farm)
+        public void upgrade(ConstructionList buildList)
         {
-            Boolean enoughResources = warehouse.checkEnoughResources(ProductionCost);
-            Boolean enoughVillagers = farm.checkEnoughResources(ProductionCost);
+            Boolean enoughResources = Warehouse.checkEnoughResources(ProductionCost);
+            Boolean enoughVillagers = Farm.checkEnoughResources(ProductionCost);
 
             //First we check if there is enough in the warehouse
             if (enoughResources && enoughVillagers)
@@ -38,8 +45,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
-                farm.withdrawPopulation(ProductionCost.VillagerCost);
+                Warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
+                Farm.withdrawPopulation(ProductionCost.VillagerCost);
 
             }
             else
@@ -56,6 +63,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
             Console.WriteLine("Level: {0}", CurrentLevel);
             Console.WriteLine("Upgrade Cost -> Iron:{0} | Wood:{1} | Clay:{2}", ProductionCost.IronCost, ProductionCost.WoodCost, ProductionCost.ClayCost);
         }
+
+       
     }
 
 

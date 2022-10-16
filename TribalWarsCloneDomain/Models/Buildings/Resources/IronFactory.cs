@@ -12,11 +12,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
        
         public int IronGain { get; set; }
 
-        public IronFactory(Cost initialCost, int maxLevel):base(initialCost,maxLevel)   
+        public IronFactory(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
         {
-            CurrentLevel = 1;
-            MaxLevel = maxLevel;
-            ProductionCost = initialCost;
+         
             IronGain = 1; 
         }
 
@@ -24,12 +22,18 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             CurrentLevel++;
             IronGain++;
+
+            //return villagers
+            Farm.PopulationInFarm += ProductionCost.VillagerCost;
+
+
             DestructionReturn = ProductionCost;
             Console.WriteLine("IronFactory Upgraded");
             ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
             ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
             ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
             ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
+
         }
 
 

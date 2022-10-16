@@ -14,6 +14,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int PopulationInFarm { get; set; }
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
+        Farm IUpgradable.Farm { get; set; }
+        public Warehouse Warehouse { get; set; }
 
         public Farm(Cost initialCost)
         {
@@ -30,17 +32,17 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
       
-        public void upgrade(ConstructionList buildList,Warehouse warehouse,Farm farm)
+        public void upgrade(ConstructionList buildList)
         {
             //First we check if there is enough in the warehouse
-            if (warehouse.checkEnoughResources(ProductionCost))
+            if (Warehouse.checkEnoughResources(ProductionCost))
             {
                 //We create a buildTask(ITem) 
                 ConstructionItem bi = new ConstructionItem(this.ProductionCost, onUpgradeComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
+                Warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
             }
             else
             {
@@ -82,6 +84,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             Console.WriteLine("MaxPopulation: {0} | Population in farm: {1}", PopulationCount, PopulationInFarm);
         }
-       
+
+     
+     
     }
 }

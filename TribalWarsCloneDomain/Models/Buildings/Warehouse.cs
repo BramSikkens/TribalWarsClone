@@ -27,7 +27,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int IronLevel { get; set; }
         public int WoodLevel { get; set; }
         public int ClayLevel { get; set; }
-
+        public Farm Farm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Warehouse IUpgradable.Warehouse { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Warehouse(ClayFactory clayFactory,IronFactory ironFactory, WoodFactory woodFactory)
         {
@@ -115,7 +116,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             IronCount = IronCount - ironAmount;
         }
 
-        public void PrintResources()
+        public void printBuildingInfo()
         {
             updateResources();
             Console.WriteLine("Iron: {0} | Wood: {1} | Clay: {2}",IronCount,WoodCount,ClayCount);
@@ -164,6 +165,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
             Capacity += 100;
             Console.WriteLine("Warehouse Upgraded");
        
+        }
+
+        public void upgrade(ConstructionList buildList)
+        {
+            throw new NotImplementedException();
         }
     }
 }
