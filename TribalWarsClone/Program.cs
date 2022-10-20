@@ -1,103 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using TribalWarsCloneDomain.Models.Buildings;
 using TribalWarsCloneDomain.Models;
-using TribalWarsCloneDomain.Testing;
 using System.Reflection.Metadata.Ecma335;
 using System.Timers;
 using TribalWarsCloneDomain.Models.Soldiers;
 
 Village v = null;
-
-//displayOptions();
-//string input = Console.ReadLine();
-
-
-
-//while (input != "exit")
-//{
-
-//    if (input == "1")
-//    {
-//        v.printBuildings();
-//    }
-//    if (input == "2")
-//    {
-//        v.IronFactory.upgrade(v.BuildList);
-//    }
-//    if (input == "3")
-//    {
-//        v.WoodFactory.upgrade(v.BuildList);
-//    }
-//    if (input == "4")
-//    {
-//        v.ClayFactory.upgrade(v.BuildList);
-//    }
-
-//    if (input == "5")
-//    {
-//        v.Warehouse.PrintResources();
-//    }
-
-//    if (input == "6")
-//    {
-//        v.Warehouse.upgrade(v.BuildList, v.Warehouse, v.Farm);
-//    }
-//    if (input == "7")
-//    {
-//        v.BuildList.printItemsInList();
-//    }
-//    if (input == "8")
-//    {
-//        v.Farm.printFarmInfo();
-//    }
-//    if (input == "9")
-//    {
-//        v.Smithy.PrintInfo();
-//    }
-
-//    if (input == "10")
-//    {
-//        v.Smithy.developSoldier(nameof(SpearSoldier));
-//    }
-
-//    if (input == "11")
-//    {
-//        v.Smithy.TrainSoldier(nameof(SpearSoldier), 1);
-//    }
-
-//    if (input == "12")
-//    {
-//        v.RallyPoint.printInfo();
-//    }
-
-
-
-//    displayOptions();
-//    input = Console.ReadLine();
-//}
-
-
-
-//void displayOptions()
-//{
-//    Console.WriteLine("Chooose Option");
-//    Console.WriteLine("1) Print Buildings");
-//    Console.WriteLine("2) Upgrade IronFactory");
-//    Console.WriteLine("3) Upgrade WoodFactory");
-//    Console.WriteLine("4) Upgrade ClayFactory");
-//    Console.WriteLine("5) View Warehouse");
-//    Console.WriteLine("6) Upgrade Warehouse");
-//    Console.WriteLine("7) Print ConstructionList");
-//    Console.WriteLine("8) Print Farm Info");
-//    Console.WriteLine("9) Print Smithy Info");
-//    Console.WriteLine("10) Develop Spear");
-//    Console.WriteLine("11) Create soldiers");
-//    Console.WriteLine("12) print rallypoint info");
-
-
-
-//}
-
 World world = new World(); 
 
 start();
@@ -116,13 +24,13 @@ void displayWorldMenu()
     Console.WriteLine("2)Create New Village");
     Console.WriteLine("3)Change Village");
     Console.WriteLine("exit");
-
+   
     string input = "";
     while (input != "exit")
     {
         switch (input)
         {
-            case "1": Console.WriteLine("not yet");break;
+            case "1": world.showInfo();break;
             case "2": createNewVillage();break;
             case "3": changeVillage();break;
        
@@ -177,9 +85,9 @@ void displayVillageMenu()
 
     Console.WriteLine("------Village-----"); 
     Console.WriteLine("1)Show VillageInfo");
-    Console.WriteLine("2)IronFactory");
-    Console.WriteLine("3)ClayFactory");
-    Console.WriteLine("4)WoodFactory");
+    Console.WriteLine("2)IronMine");
+    Console.WriteLine("3)ClayPit");
+    Console.WriteLine("4)TimberCamp");
     Console.WriteLine("5)Warehouse");
     Console.WriteLine("6)Smithy");
     Console.WriteLine("7)RallyPoint");
@@ -210,7 +118,7 @@ void displayVillageMenu()
 void displayIronFactoryMenu()
 {
 
-    Console.WriteLine("------IronFactory----");
+    Console.WriteLine("------IronMine----");
     Console.WriteLine("1)Show Info");
     Console.WriteLine("2)Upgrade");
     Console.WriteLine("3)Downgrade");
@@ -221,9 +129,9 @@ void displayIronFactoryMenu()
     {
         switch (input)
         {
-            case "1": v.IronFactory.printBuildingInfo();break;
-            case "2": v.IronFactory.upgrade(v.BuildList);break;
-            case "3": v.IronFactory.downgrade();break;
+            case "1": v.IronMine.printBuildingInfo();break;
+            case "2": v.IronMine.upgrade(v.BuildList);break;
+            case "3": v.IronMine.downgrade();break;
             case "4": displayVillageMenu(); break;
             
         }
@@ -236,7 +144,7 @@ void displayIronFactoryMenu()
 void displayWoodFactoryMenu()
 {
 
-    Console.WriteLine("------WoodFactory----");
+    Console.WriteLine("------TimberCamp----");
     Console.WriteLine("1)Show Info");
     Console.WriteLine("2)Upgrade");
     Console.WriteLine("3)Downgrade");
@@ -247,9 +155,9 @@ void displayWoodFactoryMenu()
     {
         switch (input)
         {
-            case "1": v.WoodFactory.printBuildingInfo(); break;
-            case "2": v.WoodFactory.upgrade(v.BuildList); break;
-            case "3": v.WoodFactory.downgrade(); break;
+            case "1": v.TimberCamp.printBuildingInfo(); break;
+            case "2": v.TimberCamp.upgrade(v.BuildList); break;
+            case "3": v.TimberCamp.downgrade(); break;
             case "4": displayVillageMenu(); break;
 
         }
@@ -262,7 +170,7 @@ void displayWoodFactoryMenu()
 void displayClayFactoryMenu()
 {
 
-    Console.WriteLine("------ClayFactory----");
+    Console.WriteLine("------ClayPit----");
     Console.WriteLine("1)Show Info");
     Console.WriteLine("2)Upgrade");
     Console.WriteLine("3)Downgrade");
@@ -273,9 +181,9 @@ void displayClayFactoryMenu()
     {
         switch (input)
         {
-            case "1": v.ClayFactory.printBuildingInfo(); break;
-            case "2": v.ClayFactory.upgrade(v.BuildList); break;
-            case "3": v.ClayFactory.downgrade(); break;
+            case "1": v.ClayPit.printBuildingInfo(); break;
+            case "2": v.ClayPit.upgrade(v.BuildList); break;
+            case "3": v.ClayPit.downgrade(); break;
             case "4": displayVillageMenu(); break;
 
         }
@@ -299,9 +207,9 @@ void displayWarehouseMenu()
     {
         switch (input)
         {
-            case "1": v.Warehouse.printBuildingInfo(); break;
-            case "2": v.Warehouse.upgrade(v.BuildList); break;
-            case "3": v.Warehouse.downgrade(); break;
+            case "1": (v.Warehouse as Warehouse).printBuildingInfo(); break;
+            case "2": (v.Warehouse as IUpgradable).upgrade(v.BuildList); break;
+            case "3": (v.Warehouse as IUpgradable).downgrade(); break;
             case "4": displayVillageMenu(); break;
 
         }

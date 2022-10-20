@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TribalWarsCloneDomain.utils;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
@@ -84,8 +85,5 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             Console.WriteLine("MaxPopulation: {0} | Population in farm: {1}", PopulationCount, PopulationInFarm);
         }
-
-     
-     
     }
 }

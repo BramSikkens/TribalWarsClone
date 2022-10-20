@@ -20,6 +20,13 @@ namespace TribalWarsCloneDomain.Models
             Villages.Add(userId,newVillage);
         }
 
+        public void showInfo()
+        {
+            foreach(var item in Villages)
+            {
+                item.Value.showInfo();
+            }
+        }
       
     }
 }

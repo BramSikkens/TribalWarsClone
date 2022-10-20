@@ -1,10 +1,11 @@
 ﻿
 using System;
 using System.Timers;
+using TribalWarsCloneDomain.utils;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public class Warehouse:Building,IUpgradable
+    public class Warehouse:Building,IUpgradable,IObserver
     {
         public int MaxLevel { get; }
         public int ClayCount { get; set; }
@@ -13,10 +14,6 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int Capacity { get; set; }
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public ResourceFactory IronFactory { get; set; }
-        public ResourceFactory WoodFactory { get; set; }
-        public ResourceFactory ClayFactory { get; set; }
 
         //testing
         public DateTime LastUpdated { get; set; }
@@ -27,24 +24,22 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int IronLevel { get; set; }
         public int WoodLevel { get; set; }
         public int ClayLevel { get; set; }
-        public Farm Farm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        Warehouse IUpgradable.Warehouse { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Warehouse(ClayFactory clayFactory,IronFactory ironFactory, WoodFactory woodFactory)
+
+        public Farm Farm { get; set; }
+        Warehouse IUpgradable.Warehouse { get; set; }
+
+        public Warehouse()
         {
             CurrentLevel = 1;
             MaxLevel = 20;
             Capacity = 10;
 
-            WoodFactory = woodFactory;
-            IronFactory = ironFactory;
-            ClayFactory = clayFactory;
-          
             //testing
             LastUpdated = DateTime.Now;
-            ClayCount = 0;
-            IronCount = 0;
-            WoodCount = 0;
+            ClayCount = 1000;
+            IronCount = 1000;
+            WoodCount = 1000;
 
             ProductionCost = new Cost
             {
@@ -61,9 +56,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             var deltaTime = (DateTime.Now - LastUpdated).Seconds;
 
-            int ironAddition = IronCount + (IronFactory as IronFactory).IronGain * IronFactory.CurrentLevel * deltaTime;
-            int woodAddition = (WoodFactory as WoodFactory).WoodGain * WoodFactory.CurrentLevel * deltaTime;
-            int clayAddition = ClayGain + (ClayFactory as ClayFactory).ClayGain * ClayFactory.CurrentLevel * deltaTime;
+            int ironAddition = IronGain * IronLevel * deltaTime;
+            int woodAddition = WoodGain * WoodLevel * deltaTime;
+            int clayAddition = ClayGain * ClayLevel * deltaTime;
 
             if(IronCount + ironAddition > Capacity)
             {
@@ -170,6 +165,27 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void upgrade(ConstructionList buildList)
         {
             throw new NotImplementedException();
+        }
+
+        public void Update(ISubject subject)
+        {
+
+            //When a resourceFactory is upgraded, update my data; 
+            if(subject is IronMine)
+            {
+                IronLevel = (subject as IronMine).CurrentLevel;
+                IronGain = (subject as IronMine).Gain; 
+            }
+            if (subject is TimberCamp)
+            {
+                WoodLevel = (subject as TimberCamp).CurrentLevel;
+                WoodGain = (subject as TimberCamp).Gain;
+            }
+            if (subject is ClayPit)
+            {
+                ClayLevel = (subject as ClayPit).CurrentLevel;
+                ClayGain = (subject as ClayPit).Gain;
+            }
         }
     }
 }

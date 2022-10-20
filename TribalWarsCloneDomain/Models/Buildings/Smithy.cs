@@ -6,10 +6,11 @@ using System.Threading;
 using System.Timers;
 using System.Xml.Serialization;
 using TribalWarsCloneDomain.Models.Soldiers;
+using TribalWarsCloneDomain.utils;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public class Smithy : Building, IUpgradable, IArmyCreator
+    public class Smithy : Building, IUpgradable, IArmyCreator,ISubject
     {
 
         //IUpgradable
@@ -20,23 +21,28 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public Warehouse Warehouse { get; set; }
 
         //ISoldierCreator
-        public RallyPoint RallyPoint { get; set; }
+
 
         public Dictionary<string,Soldier> Soldiers { get; set; }
 
         protected SpearSoldier spearSoldier;
 
         public ConstructionList developList { get; set; }
+        public List<IObserver> Observers { get ; set; }
 
-        
-        public Smithy(Cost initialCost,RallyPoint rallyPoint, Farm farm,Warehouse warehouse)
+
+        public RallyPoint RallyPoint { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Smithy(Cost initialCost, Farm farm,Warehouse warehouse)
         {
             CurrentLevel = 1;
             ProductionCost = initialCost;
             MaxLevel = 20;
             Farm = farm;
-            RallyPoint = rallyPoint;
+
             Warehouse = warehouse;
+
+            Observers = new List<IObserver>();
 
             //?
             Soldiers = new Dictionary<string, Soldier>();
@@ -138,7 +144,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
                         ConstructionItem newSoldier = new ConstructionItem(cost, (Object source, ElapsedEventArgs e) =>
                         {
                             Console.WriteLine("Soldier Trained -> Sent to RallyPoint");
-                            RallyPoint.AddSoldierToRallyPoint(type, 1);
+                            NotifyRallyPoint(type, 1);
                         });
                         SoldierTrainingList.AddItem(newSoldier);
                     }
@@ -174,6 +180,39 @@ namespace TribalWarsCloneDomain.Models.Buildings
             else
             {
                 Console.WriteLine("Unit:SpearSoldier | Not yet developed");
+            }
+        }
+
+        public void Attach(IObserver observer)
+        {
+            Observers.Add(observer);
+        }
+
+        public void UnAttach(IObserver observer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Notify()
+        {
+            foreach(IObserver o in Observers)
+            {
+                if(o is IObserverSmitthy)
+                {
+                    (o as IObserverSmitthy).UpdateRallyPoin("", 2);
+                }
+            }
+        }
+
+
+        public void NotifyRallyPoint(string type, int amount)
+        {
+            foreach (IObserver o in Observers)
+            {
+                if (o is IObserverSmitthy)
+                {
+                    (o as IObserverSmitthy).UpdateRallyPoin(type,amount);
+                }
             }
         }
 

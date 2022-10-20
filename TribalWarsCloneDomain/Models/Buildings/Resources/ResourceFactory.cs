@@ -1,73 +1,128 @@
 ﻿using System;
-using System.Timers;
+using System.Collections.Generic;
+using System.Text;
+using TribalWarsCloneDomain.Models.Buildings;
+using TribalWarsCloneDomain.Models;
+using TribalWarsCloneDomain.Models.Buildings.Resources;
+using TribalWarsCloneDomain.utils;
 
-namespace TribalWarsCloneDomain.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings.Resources
 {
-    public abstract class ResourceFactory: Building, IUpgradable
+
+    public abstract class ResourceFactory
     {
 
-        public int MaxLevel { get; set; }
-        public Cost ProductionCost { get; set; }
-        public Cost DestructionReturn { get; set; }
-
+        public Warehouse Warehouse {get;set;}
         public Farm Farm { get; set; }
-        public Warehouse Warehouse { get; set; }
+        
 
-        public ResourceFactory(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse)
+        public abstract ClayPit CreateClayPit();
+        public abstract IronMine CreateIronMine();
+        public abstract TimberCamp CreateTimberCamp();
+
+        public abstract Smithy CreateSmithy();
+        
+
+        public  ResourceFactory(Warehouse warehouse, Farm farm)
         {
-            CurrentLevel = 1;
-            MaxLevel = maxLevel;
-            ProductionCost = initialCost;
+            this.Warehouse = warehouse;
+            this.Farm = farm;   
+        }
+    }
 
-            //Overal moet ik precies Farm en Warehouse meegeven?
-            //Kan dit anders;
-            Warehouse = warehouse;
-            Farm = farm;
-     
+    public class ConcreteResourceFactory : ResourceFactory
+    {
+
+        public ConcreteResourceFactory(Warehouse warehouse, Farm farm):base(warehouse,farm)
+        {
+
         }
 
-
-        public void downgrade()
+        public override ClayPit CreateClayPit()
         {
-            throw new NotImplementedException();
-        }
-
-        public void upgrade(ConstructionList buildList)
-        {
-            Boolean enoughResources = Warehouse.checkEnoughResources(ProductionCost);
-            Boolean enoughVillagers = Farm.checkEnoughResources(ProductionCost);
-
-            //First we check if there is enough in the warehouse
-            if (enoughResources && enoughVillagers)
+            Cost initialCost = (new Cost
             {
-                //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, onUpgradeComplete);
-                //And add it to the given list
-                buildList.AddItem(bi);
-                //Remove cost from Warehouse
-                Warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
-                Farm.withdrawPopulation(ProductionCost.VillagerCost);
+                ClayCost = 1,
+                IronCost = 1,
+                WoodCost = 1,
+                VillagerCost = 10,
+                ProductionTime = 100000
+            });
+            int maxLevel = 20;
 
-            }
-            else
+            ClayPit newClayPit = new ClayPit(initialCost, maxLevel, Farm, Warehouse);
+            if (newClayPit is ISubject)
             {
-                Console.WriteLine("Not enough Resources");
+                (newClayPit as ISubject).Attach(Warehouse);
             }
+            return newClayPit;
         }
 
-
-        public abstract void onUpgradeComplete(Object source, ElapsedEventArgs e);
-
-        public void printBuildingInfo()
+        public override IronMine CreateIronMine()
         {
-            Console.WriteLine("Level: {0}", CurrentLevel);
-            Console.WriteLine("Upgrade Cost -> Iron:{0} | Wood:{1} | Clay:{2}", ProductionCost.IronCost, ProductionCost.WoodCost, ProductionCost.ClayCost);
+            Cost initialCost = (new Cost
+            {
+                ClayCost = 1,
+                IronCost = 1,
+                WoodCost = 1,
+                VillagerCost = 10,
+                ProductionTime = 100000
+            });
+            int maxLevel = 20;
+            IronMine newIronMine = new IronMine(initialCost, maxLevel, Farm, Warehouse);
+
+            if(newIronMine is ISubject)
+            {
+                (newIronMine as ISubject).Attach(Warehouse); 
+            }
+
+            return newIronMine;
         }
 
-       
+        public override Smithy CreateSmithy()
+        {
+            Cost initialCost = (new Cost
+            {
+                ClayCost = 1,
+                IronCost = 1,
+                WoodCost = 1,
+                VillagerCost = 10,
+                ProductionTime = 100000
+            });
+            int maxLevel = 20;
+            Smithy newSmithy = new Smithy(initialCost, Farm, Warehouse);
+
+          
+
+            return newSmithy;
+        }
+
+        public override TimberCamp CreateTimberCamp()
+        {
+            Cost initialCost = (new Cost
+            {
+                ClayCost = 1,
+                IronCost = 1,
+                WoodCost = 1,
+                VillagerCost = 10,
+                ProductionTime = 100000
+            });
+            int maxLevel = 20;
+
+            TimberCamp newTimberCamp = new TimberCamp(initialCost, maxLevel, Farm, Warehouse);
+
+            if (newTimberCamp is ISubject)
+            {
+                (newTimberCamp as ISubject).Attach(Warehouse);
+            }
+
+            return newTimberCamp;
+
+      
+        }
     }
 
 
-
 }
+
 

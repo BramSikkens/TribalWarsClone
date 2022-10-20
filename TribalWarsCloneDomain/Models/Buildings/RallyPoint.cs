@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using TribalWarsCloneDomain.Models.Soldiers;
+using TribalWarsCloneDomain.utils;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public class RallyPoint : Building
+    public class RallyPoint : Building,IObserverSmitthy
     {
 
         public Dictionary<String, int> SoldierAmounts { get; set; }
@@ -31,6 +32,19 @@ namespace TribalWarsCloneDomain.Models.Buildings
             {
                 Console.WriteLine("{0}:{1}", item.Key, item.Value);
             }
+        }
+
+        public void Update(ISubject subject)
+        {
+            if(subject is Smithy)
+            {
+
+            }
+        }
+
+        public void UpdateRallyPoin(string type, int amount)
+        {
+           AddSoldierToRallyPoint(type, amount);
         }
     }
 }
