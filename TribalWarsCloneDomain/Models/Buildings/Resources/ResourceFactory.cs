@@ -12,18 +12,17 @@ namespace TribalWarsCloneDomain.Models.Buildings.Resources
     public abstract class ResourceFactory
     {
 
-        public Warehouse Warehouse {get;set;}
-        public Farm Farm { get; set; }
+        public IWarehouse Warehouse {get;set;}
+        public IFarm Farm { get; set; }
         
 
         public abstract ClayPit CreateClayPit();
         public abstract IronMine CreateIronMine();
         public abstract TimberCamp CreateTimberCamp();
-
         public abstract Smithy CreateSmithy();
         
 
-        public  ResourceFactory(Warehouse warehouse, Farm farm)
+        public  ResourceFactory(IWarehouse warehouse, IFarm farm)
         {
             this.Warehouse = warehouse;
             this.Farm = farm;   
@@ -33,7 +32,7 @@ namespace TribalWarsCloneDomain.Models.Buildings.Resources
     public class ConcreteResourceFactory : ResourceFactory
     {
 
-        public ConcreteResourceFactory(Warehouse warehouse, Farm farm):base(warehouse,farm)
+        public ConcreteResourceFactory(IWarehouse warehouse, IFarm farm):base(warehouse,farm)
         {
 
         }

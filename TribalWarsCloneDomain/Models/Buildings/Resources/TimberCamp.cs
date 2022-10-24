@@ -11,15 +11,15 @@ namespace TribalWarsCloneDomain.Models.Buildings
     {
 
 
-        public TimberCamp(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
+        public TimberCamp(Cost initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
         {
             Gain = 1;
         }
 
 
-        public override void onUpgradeComplete(Object source, ElapsedEventArgs e)
+        public override void WhenUpgradeIsComplete(Object source, ElapsedEventArgs e)
         {
-            base.onUpgradeComplete(source, e);
+            base.WhenUpgradeIsComplete(source, e);
             Gain++;
             Console.WriteLine("TimberCamp Upgraded");
             //Notify observers that I am upgraded

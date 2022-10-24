@@ -11,4 +11,12 @@ namespace TribalWarsCloneDomain.utils
         public void UnAttach(IObserver observer);
         public void Notify();
     }
+
+    public interface ISubjectSmithy
+    {
+        public List<IObserverSmitthy> SmitthyObservers { get; set; }
+        public void Attach(IObserverSmitthy observer);
+        public void UnAttach(IObserverSmitthy observer);
+        public void NotifySoldierTrainingComplete(string type, int amount);
+    }
 }

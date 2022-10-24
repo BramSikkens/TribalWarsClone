@@ -5,35 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Buildings;
 
 namespace TribalWarsCloneDomain.Models
 {
-    public class ConstructionList
+
+
+    public class ConstructionList:IConstructionList
     {
-        private List<ConstructionItem> items;
-        public Farm Farm { get; set; }
-        public ConstructionList(Farm farm)
+        public List<IConstructionItem> ConstructionItems { get; set; }
+        public IFarm Farm { get; set; }
+        public ConstructionList(IFarm farm)
         {
-            items = new List<ConstructionItem>();
+            ConstructionItems = new List<IConstructionItem>();
             Farm = farm;
         }
 
         //When complete start the next item in the list
-       public  void onCompleted(Object source, ElapsedEventArgs e)
+       public  void WhenSingleListItemCompleted(Object source, ElapsedEventArgs e)
         {
             Console.WriteLine("Object Finished");
-            
-            
-            //Return villagers to Farm
-            //Farm.PopulationInFarm += items[0].Cost.VillagerCost;
-
-
-            //And then remove item from list
-            items.RemoveAt(0); 
-            if(items.Count > 0)
+            ConstructionItems.RemoveAt(0); 
+            if(ConstructionItems.Count > 0)
             {
-                items[0].start();
+                ConstructionItems[0].StartItemTimer();
             }
             else
             {
@@ -41,30 +37,26 @@ namespace TribalWarsCloneDomain.Models
             }
         }
 
-        public void AddItem(ConstructionItem item)
+        public void AddItem(IConstructionItem item)
         {
 
-            items.Add(item);
-            items.Last().timer.Elapsed += this.onCompleted;
+            ConstructionItems.Add(item);
+            ConstructionItems.Last().Timer.Elapsed += this.WhenSingleListItemCompleted;
 
-            if (items.Count == 1)
+            if (ConstructionItems.Count == 1)
             {
-                items[0].start();
+                ConstructionItems[0].StartItemTimer();
             }
-
-            
-           
-            
        
         }
 
  
 
-        public void printItemsInList()
+        public void Print()
         {
-            items.ForEach(e =>
+            ConstructionItems.ForEach(e =>
             {
-                e.printConstructionItem();
+                e.Print();
             });
         }
 

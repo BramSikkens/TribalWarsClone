@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Timers;
+using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.utils;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public abstract class ResourceBuilding: Building, IUpgradable, ISubject
+    public abstract class ResourceBuilding: Building, IUpgradable, ISubject,IPrint
     {
 
         public int MaxLevel { get; set; }
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
         public int Gain { get; set; }
-        public Farm Farm { get; set; }
-        public Warehouse Warehouse { get; set; }
+        public IFarm Farm { get; set; }
+        public IResourceble Warehouse { get; set; }
         public List<IObserver> Observers { get; set; }
 
-        public ResourceBuilding(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse)
+        public ResourceBuilding(Cost initialCost, int maxLevel, IFarm farm, IWarehouse warehouse)
         {
             CurrentLevel = 1;
             MaxLevel = maxLevel;
@@ -28,26 +30,26 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
 
-        public void downgrade()
+        public void Downgrade()
         {
             throw new NotImplementedException();
         }
 
-        public void upgrade(ConstructionList buildList)
+        public void Upgrade(IConstructionList buildList)
         {
-            Boolean enoughResources = Warehouse.checkEnoughResources(ProductionCost);
-            Boolean enoughVillagers = Farm.checkEnoughResources(ProductionCost);
+            Boolean enoughResources = Warehouse.CheckEnoughResources(ProductionCost);
+            Boolean enoughVillagers = Farm.CheckEnoughResources(ProductionCost);
 
             //First we check if there is enough in the warehouse
             if (enoughResources && enoughVillagers)
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, onUpgradeComplete);
+                ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                Warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
-                Farm.withdrawPopulation(ProductionCost.VillagerCost);
+                Warehouse.WithdrawResources(ProductionCost);
+                Farm.WithdrawResources(ProductionCost);
 
             }
             else
@@ -57,7 +59,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
 
-        public virtual void onUpgradeComplete(Object source, ElapsedEventArgs e)
+        public virtual void WhenUpgradeIsComplete(Object source, ElapsedEventArgs e)
         {
             CurrentLevel++;
             Gain++;
@@ -73,15 +75,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         }
 
-        public void printBuildingInfo()
-        {
-            Console.WriteLine("Level: {0}", CurrentLevel);
-            Console.WriteLine("Upgrade Cost -> Iron:{0} | Wood:{1} | Clay:{2}", ProductionCost.IronCost, ProductionCost.WoodCost, ProductionCost.ClayCost);
-        }
-
     
-
-
+    
         //Observers
 
         public void Attach(IObserver observer)
@@ -104,7 +99,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
-
+        public void Print()
+        {
+            Console.WriteLine("Level: {0}", CurrentLevel);
+            Console.WriteLine("Upgrade Cost -> Iron:{0} | Wood:{1} | Clay:{2}", ProductionCost.IronCost, ProductionCost.WoodCost, ProductionCost.ClayCost);
+        }
     }
 
 

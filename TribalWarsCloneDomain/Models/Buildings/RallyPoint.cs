@@ -6,7 +6,14 @@ using TribalWarsCloneDomain.utils;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public class RallyPoint : Building,IObserverSmitthy
+
+    public interface IRallyPoint: IObserverSmitthy,IPrint
+    {
+        public Dictionary<String, int> SoldierAmounts { get; set; }
+        public void AddSoldierToRallyPoint(string type, int amount);
+    }
+
+    public class RallyPoint : Building,IRallyPoint
     {
 
         public Dictionary<String, int> SoldierAmounts { get; set; }
@@ -26,14 +33,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             SoldierAmounts[type] += amount; 
         }
 
-        public void printBuildingInfo()
-        {
-            foreach(var item in SoldierAmounts)
-            {
-                Console.WriteLine("{0}:{1}", item.Key, item.Value);
-            }
-        }
-
+   
         public void Update(ISubject subject)
         {
             if(subject is Smithy)
@@ -45,6 +45,14 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void UpdateRallyPoin(string type, int amount)
         {
            AddSoldierToRallyPoint(type, amount);
+        }
+
+        public void Print()
+        {
+            foreach (var item in SoldierAmounts)
+            {
+                Console.WriteLine("{0}:{1}", item.Key, item.Value);
+            }
         }
     }
 }

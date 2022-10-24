@@ -24,7 +24,7 @@ namespace TribalWarsCloneDomain.Models
         {
             foreach(var item in Villages)
             {
-                item.Value.showInfo();
+                item.Value.Print();
             }
         }
       

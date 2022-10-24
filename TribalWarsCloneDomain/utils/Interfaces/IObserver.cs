@@ -10,7 +10,7 @@ namespace TribalWarsCloneDomain.utils
         public void Update(ISubject subject);
     }
 
-    public interface IObserverSmitthy:IObserver
+    public interface IObserverSmitthy
     {
         public void UpdateRallyPoin(string type, int amount);
     }

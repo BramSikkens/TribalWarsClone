@@ -11,17 +11,17 @@ namespace TribalWarsCloneDomain.Models.Buildings
     public class IronMine : ResourceBuilding, IUpgradable
     {
 
-        public IronMine(Cost initialCost, int maxLevel, Farm farm, Warehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
+        public IronMine(Cost initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
         {
 
             Gain = 1;
       
         }
 
-        public override void onUpgradeComplete(Object source, ElapsedEventArgs e)
+        public override void WhenUpgradeIsComplete(Object source, ElapsedEventArgs e)
         {
         
-            base.onUpgradeComplete(source, e);
+            base.WhenUpgradeIsComplete(source, e);
             Console.WriteLine("IronMine Upgraded");
             //Notify observers that I am upgraded
             Notify();

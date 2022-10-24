@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Timers;
 using TribalWarsCloneDomain.Models.Soldiers;
 
-Village v = null;
+IVillage v = null;
 World world = new World(); 
 
 start();
@@ -14,7 +14,6 @@ start();
 void start()
 {
     displayWorldMenu();
-
 }
 
 void displayWorldMenu()
@@ -98,7 +97,7 @@ void displayVillageMenu()
     {
         switch (input)
         {
-            case "1": v.showInfo();break;
+            case "1": v.Print();break;
             case "2": displayIronFactoryMenu(); break;
             case "3": displayClayFactoryMenu(); break;
             case "4": displayWoodFactoryMenu(); break;
@@ -129,9 +128,9 @@ void displayIronFactoryMenu()
     {
         switch (input)
         {
-            case "1": v.IronMine.printBuildingInfo();break;
-            case "2": v.IronMine.upgrade(v.BuildList);break;
-            case "3": v.IronMine.downgrade();break;
+            case "1": v.IronMine.Print();break;
+            case "2": v.IronMine.Upgrade(v.BuildList);break;
+            case "3": v.IronMine.Downgrade();break;
             case "4": displayVillageMenu(); break;
             
         }
@@ -155,9 +154,9 @@ void displayWoodFactoryMenu()
     {
         switch (input)
         {
-            case "1": v.TimberCamp.printBuildingInfo(); break;
-            case "2": v.TimberCamp.upgrade(v.BuildList); break;
-            case "3": v.TimberCamp.downgrade(); break;
+            case "1": v.TimberCamp.Print(); break;
+            case "2": v.TimberCamp.Upgrade(v.BuildList); break;
+            case "3": v.TimberCamp.Downgrade(); break;
             case "4": displayVillageMenu(); break;
 
         }
@@ -181,9 +180,9 @@ void displayClayFactoryMenu()
     {
         switch (input)
         {
-            case "1": v.ClayPit.printBuildingInfo(); break;
-            case "2": v.ClayPit.upgrade(v.BuildList); break;
-            case "3": v.ClayPit.downgrade(); break;
+            case "1": v.ClayPit.Print(); break;
+            case "2": v.ClayPit.Upgrade(v.BuildList); break;
+            case "3": v.ClayPit.Downgrade(); break;
             case "4": displayVillageMenu(); break;
 
         }
@@ -207,9 +206,9 @@ void displayWarehouseMenu()
     {
         switch (input)
         {
-            case "1": (v.Warehouse as Warehouse).printBuildingInfo(); break;
-            case "2": (v.Warehouse as IUpgradable).upgrade(v.BuildList); break;
-            case "3": (v.Warehouse as IUpgradable).downgrade(); break;
+            case "1": (v.Warehouse as Warehouse).Print(); break;
+            case "2": (v.Warehouse as IUpgradable).Upgrade(v.BuildList); break;
+            case "3": (v.Warehouse as IUpgradable).Downgrade(); break;
             case "4": displayVillageMenu(); break;
 
         }
@@ -235,8 +234,8 @@ void displaySmithyMenu()
         switch (input)
         {
             case "1": v.Smithy.printBuildingInfo(); break;
-            case "2": v.Smithy.upgrade(v.BuildList); break;
-            case "3": v.Smithy.downgrade(); break;
+            case "2": v.Smithy.Upgrade(v.BuildList); break;
+            case "3": v.Smithy.Downgrade(); break;
             case "4": v.Smithy.developSoldier(nameof(SpearSoldier));break;
             case "5":
                 {
@@ -267,7 +266,7 @@ void displayRallyPointMenu()
     {
         switch (input)
         {
-            case "1": v.RallyPoint.printBuildingInfo(); break;
+            case "1": v.RallyPoint.Print(); break;
             case "4": displayVillageMenu(); break;
 
         }

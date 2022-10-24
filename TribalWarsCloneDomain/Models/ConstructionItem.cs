@@ -4,43 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TribalWarsCloneDomain.Interfaces;
 
 namespace TribalWarsCloneDomain.Models
 {
-    public class ConstructionItem
-    {
-        public System.Timers.Timer timer;
-        public DateTime StartTime { get; set; }
-        public DateTime endTime { get; set; }
-        public String Status {get;set;}
-        string Title { get; set; }
-        public Cost Cost { get; set; }
 
-      
+    public class ConstructionItem:IConstructionItem
+    {
+        public System.Timers.Timer Timer { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public String Status {get;set;}
+        public String Title { get; set; }
+        public Cost Cost { get; set; }
 
         public ConstructionItem(Cost cost,ElapsedEventHandler onCompleted)
         {
-            timer = new System.Timers.Timer(cost.ProductionTime);
-            timer.AutoReset = false;
-            timer.Enabled = false;
-            timer.Elapsed += onCompleted;
+            Timer = new System.Timers.Timer(cost.ProductionTime);
+            Timer.AutoReset = false;
+            Timer.Enabled = false;
+            Timer.Elapsed += onCompleted;
             Cost = cost;
             Status = "Queued";
         }
 
+       
 
-        public void start()
+
+        public void StartItemTimer()
         {
-            timer.Enabled = true;
+            Timer.Enabled = true;
             StartTime = DateTime.Now;
-            endTime = StartTime.AddMilliseconds(Cost.ProductionTime);
+            EndTime = StartTime.AddMilliseconds(Cost.ProductionTime);
             Status = "Started";
-            printConstructionItem();
+            Print();
         }
 
-        public void printConstructionItem()
+        public void Print()
         {
-            Console.WriteLine("Status:{0} | Starttime:{1} | EndTime:{2} |Time Left: {3}", Status, StartTime.ToString(), endTime.ToString(),(endTime - DateTime.Now));
+            Console.WriteLine("Status:{0} | Starttime:{1} | EndTime:{2} |Time Left: {3}", Status, StartTime.ToString(), EndTime.ToString(),(EndTime - DateTime.Now));
         }
     }
 }

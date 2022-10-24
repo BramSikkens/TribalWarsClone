@@ -5,35 +5,41 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Xml.Serialization;
+using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Soldiers;
 using TribalWarsCloneDomain.utils;
 
-namespace TribalWarsCloneDomain.Models.Buildings
+namespace TribalWarsCloneDomain.Models.Buildings 
 {
-    public class Smithy : Building, IUpgradable, IArmyCreator,ISubject
+
+    public interface ISmithy:IUpgradable,IArmyCreator,ISubjectSmithy
+    {
+        ConstructionList developList { get; set;}
+        public void printBuildingInfo();
+    }
+
+
+
+    public class Smithy : Building, ISmithy
     {
 
         //IUpgradable
         public int MaxLevel { get; set; }
         public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
-        public Farm Farm { get; set; }
-        public Warehouse Warehouse { get; set; }
+        public IFarm Farm { get; set; }
+        public IWarehouse Warehouse { get; set; }
 
         //ISoldierCreator
-
-
         public Dictionary<string,Soldier> Soldiers { get; set; }
-
         protected SpearSoldier spearSoldier;
 
         public ConstructionList developList { get; set; }
-        public List<IObserver> Observers { get ; set; }
+        public List<IObserverSmitthy> SmitthyObservers { get ; set; }
 
 
-        public RallyPoint RallyPoint { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Smithy(Cost initialCost, Farm farm,Warehouse warehouse)
+        public Smithy(Cost initialCost, IFarm farm,IWarehouse warehouse)
         {
             CurrentLevel = 1;
             ProductionCost = initialCost;
@@ -42,7 +48,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
             Warehouse = warehouse;
 
-            Observers = new List<IObserver>();
+            SmitthyObservers = new List<IObserverSmitthy>();
 
             //?
             Soldiers = new Dictionary<string, Soldier>();
@@ -52,12 +58,12 @@ namespace TribalWarsCloneDomain.Models.Buildings
         
         } 
 
-        public void downgrade()
+        public void Downgrade()
         {
             throw new NotImplementedException();
         }
 
-        public void onUpgradeComplete(object source, ElapsedEventArgs e)
+        public void WhenUpgradeIsComplete(object source, ElapsedEventArgs e)
         {
             CurrentLevel++;
             DestructionReturn = ProductionCost;
@@ -69,17 +75,17 @@ namespace TribalWarsCloneDomain.Models.Buildings
             ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
         }
 
-        public void upgrade(ConstructionList buildList)
+        public void Upgrade(IConstructionList buildList)
         {
             //First we check if there is enough in the warehouse
-            if (Warehouse.checkEnoughResources(ProductionCost))
+            if (Warehouse.CheckEnoughResources(ProductionCost))
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, onUpgradeComplete);
+                ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                Warehouse.withdrawResources(ProductionCost.ClayCost, ProductionCost.IronCost, ProductionCost.WoodCost);
+                Warehouse.WithdrawResources(ProductionCost);
             }
             else
             {
@@ -100,9 +106,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
                 case nameof(SpearSoldier):
                     {
                         Cost spearSoldierCost = new Cost { ClayCost = 3, IronCost = 1, WoodCost = 5, VillagerCost = 1, ProductionTime = 5021 };
-                        if (Warehouse.checkEnoughResources(spearSoldierCost))
+                        if (Warehouse.CheckEnoughResources(spearSoldierCost))
                         {
-                            Warehouse.withdrawResources(spearSoldierCost.ClayCost, spearSoldierCost.ClayCost, spearSoldierCost.WoodCost);
+                            Warehouse.WithdrawResources(spearSoldierCost);
                             ConstructionItem developSoldier = new ConstructionItem(spearSoldierCost, (Object source, ElapsedEventArgs e) =>
                             {
                                 Console.WriteLine("Soldier Developed");
@@ -138,13 +144,13 @@ namespace TribalWarsCloneDomain.Models.Buildings
                 for(int i =0; i < amount; i++)
                 {
                     Cost cost = Soldiers[type].ProductionCost;
-                    if (Warehouse.checkEnoughResources(cost))
+                    if (Warehouse.CheckEnoughResources(cost))
                     {
-                        Warehouse.withdrawResources(cost.ClayCost, cost.ClayCost, cost.WoodCost);
+                        Warehouse.WithdrawResources(ProductionCost);
                         ConstructionItem newSoldier = new ConstructionItem(cost, (Object source, ElapsedEventArgs e) =>
                         {
                             Console.WriteLine("Soldier Trained -> Sent to RallyPoint");
-                            NotifyRallyPoint(type, 1);
+                            NotifySoldierTrainingComplete(type, 1);
                         });
                         SoldierTrainingList.AddItem(newSoldier);
                     }
@@ -182,37 +188,25 @@ namespace TribalWarsCloneDomain.Models.Buildings
                 Console.WriteLine("Unit:SpearSoldier | Not yet developed");
             }
         }
-
-        public void Attach(IObserver observer)
+        
+        public void Attach(IObserverSmitthy observer)
         {
-            Observers.Add(observer);
+            SmitthyObservers.Add(observer);
         }
 
-        public void UnAttach(IObserver observer)
+        public void UnAttach(IObserverSmitthy observer)
         {
             throw new NotImplementedException();
         }
 
-        public void Notify()
-        {
-            foreach(IObserver o in Observers)
-            {
-                if(o is IObserverSmitthy)
-                {
-                    (o as IObserverSmitthy).UpdateRallyPoin("", 2);
-                }
-            }
-        }
 
 
-        public void NotifyRallyPoint(string type, int amount)
+
+        public void NotifySoldierTrainingComplete(string type, int amount)
         {
-            foreach (IObserver o in Observers)
+            foreach (IObserverSmitthy o in SmitthyObservers)
             {
-                if (o is IObserverSmitthy)
-                {
-                    (o as IObserverSmitthy).UpdateRallyPoin(type,amount);
-                }
+                o.UpdateRallyPoin(type, amount);
             }
         }
 

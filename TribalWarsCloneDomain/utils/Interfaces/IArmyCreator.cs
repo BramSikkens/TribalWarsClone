@@ -8,11 +8,7 @@ namespace TribalWarsCloneDomain.Models
 {
     public interface IArmyCreator
     {
-        public Farm Farm { get; set; }
-        public RallyPoint RallyPoint { get; set; }
-        public Warehouse Warehouse { get; set; }
-
-
+  
         public Dictionary<string, Soldier> Soldiers { get; set; }
         public Boolean isSoldierDeveloped(string type);
         public void developSoldier(string type);
