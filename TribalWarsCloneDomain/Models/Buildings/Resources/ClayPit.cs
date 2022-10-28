@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
     public class ClayPit : ResourceBuilding,IUpgradable
     {
    
-
-        public ClayPit(Cost initialCost, int maxLevel,IFarm farm, IWarehouse warehouse):base(initialCost,maxLevel,farm,warehouse)
+        public ClayPit(Dictionary<int,Cost> initialCost, int maxLevel,IFarm farm, IWarehouse warehouse):base(initialCost,maxLevel,farm,warehouse)
         {
-
             Gain = 1;
         }
 
@@ -25,14 +24,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             //Notify observers that I am upgraded
             Notify();
 
-
-
-
-
         }
-
-
-
 
     }
 }

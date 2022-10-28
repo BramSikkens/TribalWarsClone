@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
@@ -11,7 +12,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
     {
 
 
-        public TimberCamp(Cost initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
+        public TimberCamp(Dictionary<int,Cost> initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
         {
             Gain = 1;
         }

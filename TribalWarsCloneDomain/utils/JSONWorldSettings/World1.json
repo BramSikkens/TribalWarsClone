@@ -1,0 +1,41 @@
+﻿{
+  "name": "World1",
+  "buildings": [
+    {
+      "name": "ironmine",
+      "prebuild": true,
+      "requirementsNeeded": false,
+      "startLevel": 1,
+      "maxLevel": 3,
+      "upgradeCosts": {
+        "1": {
+          "woodCost": 1,
+          "ironCost": 1,
+          "clayCost": 1,
+          "productionTime": 10000,
+          "villagerCost": 1
+        },
+        "2": {
+          "woodCost": 2,
+          "ironCost": 2,
+          "clayCost": 2,
+          "productionTime": 20000,
+          "villagerCost": 2
+        },
+        "3": {
+          "woodCost": 3,
+          "ironCost": 3,
+          "clayCost": 3,
+          "productionTime": 30000,
+          "villagerCost": 3
+        }
+      },
+      "levelPoints": {
+        "1": 1,
+        "2": 2,
+        "3": 3
+      }
+
+    }
+  ]
+}

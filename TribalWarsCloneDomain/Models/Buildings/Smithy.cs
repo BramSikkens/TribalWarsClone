@@ -8,14 +8,14 @@ using System.Xml.Serialization;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Soldiers;
 using TribalWarsCloneDomain.utils;
+using TribalWarsCloneDomain.utils.Interfaces;
 
-namespace TribalWarsCloneDomain.Models.Buildings 
+namespace TribalWarsCloneDomain.Models.Buildings
 {
 
-    public interface ISmithy:IUpgradable,IArmyCreator,ISubjectSmithy
+    public interface ISmithy : IUpgradable, IArmyCreator, ISubjectSmithy, IPrint, INeedRequirements
     {
         ConstructionList developList { get; set;}
-        public void printBuildingInfo();
     }
 
 
@@ -25,24 +25,25 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         //IUpgradable
         public int MaxLevel { get; set; }
-        public Cost ProductionCost { get; set; }
-        public Cost DestructionReturn { get; set; }
         public IFarm Farm { get; set; }
         public IWarehouse Warehouse { get; set; }
+        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
         //ISoldierCreator
         public Dictionary<string,Soldier> Soldiers { get; set; }
-        protected SpearSoldier spearSoldier;
 
         public ConstructionList developList { get; set; }
         public List<IObserverSmitthy> SmitthyObservers { get ; set; }
 
 
+        public List<string> requiredObjects { get; set; }
+        public Dictionary<string,string> requiredProperties { get; set; }
+      
 
-        public Smithy(Cost initialCost, IFarm farm,IWarehouse warehouse)
+        public Smithy(Dictionary<int, Cost> productionCosts, IFarm farm,IWarehouse warehouse)
         {
             CurrentLevel = 1;
-            ProductionCost = initialCost;
+            ProductionCostsPerLevel = productionCosts;
             MaxLevel = 20;
             Farm = farm;
 
@@ -55,6 +56,13 @@ namespace TribalWarsCloneDomain.Models.Buildings
             Soldiers.Add(nameof(SpearSoldier), null);
 
             developList = new ConstructionList(Farm);
+
+            //Testing
+            requiredObjects = new List<string>();
+            requiredProperties = new Dictionary<string, string>();
+
+            requiredObjects.Add("IronMine");
+            requiredProperties.Add("CurrentLevel","2");
         
         } 
 
@@ -66,30 +74,25 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void WhenUpgradeIsComplete(object source, ElapsedEventArgs e)
         {
             CurrentLevel++;
-            DestructionReturn = ProductionCost;
+  
             Console.WriteLine("Smithy Upgraded");
-
-            ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
-            ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
-            ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
-            ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
         }
 
         public void Upgrade(IConstructionList buildList)
         {
             //First we check if there is enough in the warehouse
-            if (Warehouse.CheckEnoughResources(ProductionCost))
+            if (Warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel++)))
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel++), WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                Warehouse.WithdrawResources(ProductionCost);
+                Warehouse.WithdrawResources(GetLevelCost(CurrentLevel++));
             }
             else
             {
-                Console.WriteLine("Not enough Resources");
+                Console.WriteLine("Not enough EssentialResources");
             }
         }
 
@@ -146,7 +149,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
                     Cost cost = Soldiers[type].ProductionCost;
                     if (Warehouse.CheckEnoughResources(cost))
                     {
-                        Warehouse.WithdrawResources(ProductionCost);
+                        Warehouse.WithdrawResources(GetLevelCost(CurrentLevel));
                         ConstructionItem newSoldier = new ConstructionItem(cost, (Object source, ElapsedEventArgs e) =>
                         {
                             Console.WriteLine("Soldier Trained -> Sent to RallyPoint");
@@ -156,7 +159,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
                     }
                     else
                     {
-                        Console.WriteLine("Not enough Resources Anymore");
+                        Console.WriteLine("Not enough EssentialResources Anymore");
                     }
                 }
             }
@@ -167,7 +170,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             
         }
 
-        public void printBuildingInfo()
+        public void Print()
         {
 
             foreach(var item in Soldiers)
@@ -180,13 +183,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             }
 
 
-            if(spearSoldier != null)
-            {
-            }
-            else
-            {
-                Console.WriteLine("Unit:SpearSoldier | Not yet developed");
-            }
+            
         }
         
         public void Attach(IObserverSmitthy observer)
@@ -210,5 +207,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
             }
         }
 
+        public Cost GetLevelCost(int level)
+        {
+            return ProductionCostsPerLevel[level];
+        }
     }
 }

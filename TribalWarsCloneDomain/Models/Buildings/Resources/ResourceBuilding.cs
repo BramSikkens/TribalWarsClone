@@ -11,24 +11,41 @@ namespace TribalWarsCloneDomain.Models.Buildings
     {
 
         public int MaxLevel { get; set; }
-        public Cost ProductionCost { get; set; }
         public Cost DestructionReturn { get; set; }
         public int Gain { get; set; }
         public IFarm Farm { get; set; }
-        public IResourceble Warehouse { get; set; }
+        public IResourcable Warehouse { get; set; }
         public List<IObserver> Observers { get; set; }
+        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
-        public ResourceBuilding(Cost initialCost, int maxLevel, IFarm farm, IWarehouse warehouse)
+        
+        //To Test
+        public List<IResourcable> EssentialResources { get; set; }
+
+        public ResourceBuilding(Dictionary<int,Cost> productionCosts, int maxLevel, IFarm farm, IWarehouse warehouse)
         {
             CurrentLevel = 1;
             MaxLevel = maxLevel;
-            ProductionCost = initialCost;
             Warehouse = warehouse;
             Farm = farm;
             Observers = new List<IObserver>();
+            ProductionCostsPerLevel = productionCosts;
+
+            EssentialResources = new List<IResourcable>();
+
+
+            //To test
+            EssentialResources.Add(farm);
+            EssentialResources.Add(warehouse);
+
 
         }
 
+
+        public Cost GetLevelCost(int level)
+        {
+            return ProductionCostsPerLevel[level];
+        }
 
         public void Downgrade()
         {
@@ -37,54 +54,67 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public void Upgrade(IConstructionList buildList)
         {
-            Boolean enoughResources = Warehouse.CheckEnoughResources(ProductionCost);
-            Boolean enoughVillagers = Farm.CheckEnoughResources(ProductionCost);
+            //Boolean enoughResources = Warehouse.CheckEnoughResources(ProductionCost);
+            //Boolean enoughVillagers = Farm.CheckEnoughResources(ProductionCost);
 
-            //First we check if there is enough in the warehouse
-            if (enoughResources && enoughVillagers)
+            ////First we check if there is enough in the warehouse
+            //if (enoughResources && enoughVillagers)
+            //{
+            //    //We create a buildTask(ITem) 
+            //    ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
+            //    //And add it to the given list
+            //    buildList.AddItem(bi);
+            //    //Remove cost from Warehouse
+            //    Warehouse.WithdrawResources(ProductionCost);
+            //    Farm.WithdrawResources(ProductionCost);
+
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Not enough EssentialResources");
+            //}
+
+
+            Boolean enoughResources = true; 
+            foreach(IResourcable resource in EssentialResources)
             {
-                //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
+                if (resource.CheckEnoughResources(GetLevelCost(CurrentLevel + 1)) == false) {
+                    enoughResources = false;
+                    break;
+                }
+            }
+
+            if (enoughResources)
+            {
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel +1), WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
-                //Remove cost from Warehouse
-                Warehouse.WithdrawResources(ProductionCost);
-                Farm.WithdrawResources(ProductionCost);
+            }
 
-            }
-            else
+            foreach (IResourcable resource in EssentialResources)
             {
-                Console.WriteLine("Not enough Resources");
+                resource.WithdrawResources(GetLevelCost(CurrentLevel + 1));
             }
+
+
         }
 
 
         public virtual void WhenUpgradeIsComplete(Object source, ElapsedEventArgs e)
         {
+            //return villagers
+            Farm.PopulationInFarm += GetLevelCost(CurrentLevel + 1 ).VillagerCost;
             CurrentLevel++;
             Gain++;
-
-            //return villagers
-            Farm.PopulationInFarm += ProductionCost.VillagerCost;
-            DestructionReturn = ProductionCost;
-
-            ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
-            ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
-            ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
-            ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
-
         }
 
     
     
         //Observers
-
         public void Attach(IObserver observer)
         {
             Observers.Add(observer);
         }
-
-
 
         public void Notify()
         {
@@ -99,13 +129,15 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
+
+        //<IPrint>
         public void Print()
         {
             Console.WriteLine("Level: {0}", CurrentLevel);
-            Console.WriteLine("Upgrade Cost -> Iron:{0} | Wood:{1} | Clay:{2}", ProductionCost.IronCost, ProductionCost.WoodCost, ProductionCost.ClayCost);
+            Console.Write("Upgrade Cost -> ");
+            GetLevelCost(CurrentLevel++).Print();
         }
     }
-
 
 
 }

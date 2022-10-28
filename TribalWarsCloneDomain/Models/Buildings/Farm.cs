@@ -10,7 +10,7 @@ using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
-    public interface IFarm: IUpgradable,IPrint,IResourceble
+    public interface IFarm: IUpgradable,IPrint,IResourcable
     {
 
         public int PopulationInFarm { get; set; }
@@ -26,17 +26,17 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int MaxLevel { get; }
         public int PopulationCount { get; set; }
         public int PopulationInFarm { get; set; }
-        public Cost ProductionCost { get; set; }
-        public Cost DestructionReturn { get; set; }
         public IWarehouse Warehouse { get; set; }
 
-        public Farm(Cost initialCost)
+        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
+
+        public Farm(Dictionary<int, Cost> productionCosts)
         {
             CurrentLevel = 1;
             MaxLevel = 20; 
             PopulationCount = 240;
             PopulationInFarm = 240;
-            ProductionCost = initialCost;
+            ProductionCostsPerLevel = productionCosts;
         }
 
         public void Downgrade()
@@ -48,18 +48,18 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void Upgrade(IConstructionList buildList)
         {
             //First we check if there is enough in the warehouse
-            if (Warehouse.CheckEnoughResources(ProductionCost))
+            if (Warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel++)))
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel++), WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                Warehouse.WithdrawResources(ProductionCost);
+                Warehouse.WithdrawResources(GetLevelCost(CurrentLevel++));
             }
             else
             {
-                Console.WriteLine("Not enough Resources");
+                Console.WriteLine("Not enough EssentialResources");
             }
         }
 
@@ -81,16 +81,12 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void WhenUpgradeIsComplete(object source, ElapsedEventArgs e)
         {
             CurrentLevel++;
-            DestructionReturn = ProductionCost;
+ 
             PopulationCount += 100;
             PopulationInFarm += 100;
-            PopulationInFarm += ProductionCost.VillagerCost;
+            PopulationInFarm += GetLevelCost(CurrentLevel).VillagerCost;
 
             Console.WriteLine("Farm Upgraded");
-            ProductionCost.ClayCost = (int)Math.Round(ProductionCost.ClayCost * 1.5);
-            ProductionCost.IronCost = (int)Math.Round(ProductionCost.IronCost * 1.5);
-            ProductionCost.WoodCost = (int)Math.Round(ProductionCost.WoodCost * 1.5);
-            ProductionCost.ProductionTime = (int)Math.Round(ProductionCost.ProductionTime * 1.5);
         }
 
     
@@ -104,6 +100,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
-   
+        public Cost GetLevelCost(int level)
+        {
+            return ProductionCostsPerLevel[level];
+        }
     }
 }

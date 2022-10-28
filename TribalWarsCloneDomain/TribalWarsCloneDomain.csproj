@@ -10,8 +10,9 @@
     <None Remove="utils\" />
     <None Remove="utils\Interfaces\" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="utils\" />
-    <Folder Include="utils\Interfaces\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
 </Project>

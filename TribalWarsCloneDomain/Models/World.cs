@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models
 {
@@ -16,7 +17,7 @@ namespace TribalWarsCloneDomain.Models
 
         public void createNewVillage(string userId, string name)
         {
-            Village newVillage = new Village(name);
+            Village newVillage = new VillageBuilder().CreateVillage(name);
             Villages.Add(userId,newVillage);
         }
 

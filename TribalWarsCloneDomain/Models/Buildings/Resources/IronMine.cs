@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TribalWarsCloneDomain.utils;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
     public class IronMine : ResourceBuilding, IUpgradable
     {
 
-        public IronMine(Cost initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
+        public IronMine(Dictionary<int,Cost> initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
         {
 
             Gain = 1;

@@ -4,6 +4,8 @@ using TribalWarsCloneDomain.Models;
 using System.Reflection.Metadata.Ecma335;
 using System.Timers;
 using TribalWarsCloneDomain.Models.Soldiers;
+using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 IVillage v = null;
 World world = new World(); 
@@ -11,9 +13,13 @@ World world = new World();
 start();
 
 
-void start()
+ void start()
 {
+    //displayWorldMenu();
+     WorldDTO dto =  WorldSettingsReader.Read<WorldDTO>("C:\\Users\\Bram Sikkens\\Desktop\\TribalWarsClone\\TribalWarsClone\\World1.json");
+    Console.WriteLine(dto);
     displayWorldMenu();
+
 }
 
 void displayWorldMenu()
@@ -220,34 +226,55 @@ void displayWarehouseMenu()
 
 void displaySmithyMenu()
 {
-    Console.WriteLine("------Smithy----");
-    Console.WriteLine("1)Show Info");
-    Console.WriteLine("2)Upgrade");
-    Console.WriteLine("3)Downgrade");
-    Console.WriteLine("4)Develop Spear");
-    Console.WriteLine("5)Train Spear");
-    Console.WriteLine("6)Go Back");
+
 
     string input = "";
     while (input != "exit")
     {
-        switch (input)
+        if (v.Smithy != null)
         {
-            case "1": v.Smithy.printBuildingInfo(); break;
-            case "2": v.Smithy.Upgrade(v.BuildList); break;
-            case "3": v.Smithy.Downgrade(); break;
-            case "4": v.Smithy.developSoldier(nameof(SpearSoldier));break;
-            case "5":
-                {
-                    Console.Write("Amount");
-                    string amount = Console.ReadLine();
-                    v.Smithy.TrainSoldier(nameof(SpearSoldier),int.Parse(amount));
-            
-                    
-                };break;
-            case "6": displayVillageMenu(); break;
+            Console.WriteLine("------Smithy----");
+            Console.WriteLine("1)Show Info");
+            Console.WriteLine("2)Upgrade");
+            Console.WriteLine("3)Downgrade");
+            Console.WriteLine("4)Develop Spear");
+            Console.WriteLine("5)Train Spear");
+            Console.WriteLine("6)Go Back");
 
+            switch (input)
+            {
+                case "1": v.Smithy.Print(); break;
+                case "2": v.Smithy.Upgrade(v.BuildList); break;
+                case "3": v.Smithy.Downgrade(); break;
+                case "4": v.Smithy.developSoldier(nameof(SpearSoldier)); break;
+                case "5":
+                    {
+                        Console.Write("Amount");
+                        string amount = Console.ReadLine();
+                        v.Smithy.TrainSoldier(nameof(SpearSoldier), int.Parse(amount));
+
+
+                    }; break;
+                case "6": displayVillageMenu(); break;
+
+            }
         }
+        else
+        {
+            Console.WriteLine("Smithy is not yet developed");
+            Console.WriteLine("1)Create Smithy");
+            Console.WriteLine("6)Go Back");
+
+            switch (input)
+            {
+                case "1": {
+                        v.AddSmithy();
+                        displayVillageMenu();
+                    }; break;
+                case "6": displayVillageMenu(); break;
+            }
+        }
+
 
         Console.Write("input:");
         input = Console.ReadLine();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TribalWarsCloneDomain.Interfaces;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
@@ -16,9 +17,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
     public class HeadQuarters : Building, IHeadQuarters
     {
         public int MaxLevel { get; set; }
-        public Cost ProductionCost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-  
+        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
         public HeadQuarters()
         {
@@ -39,6 +38,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
         public void Upgrade(IConstructionList buildList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Cost GetLevelCost(int level)
         {
             throw new NotImplementedException();
         }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Buildings;
-using TribalWarsCloneDomain.Models.Buildings.Resources;
 using TribalWarsCloneDomain.utils;
 
 namespace TribalWarsCloneDomain.Models
@@ -19,12 +18,13 @@ namespace TribalWarsCloneDomain.Models
 
         public IConstructionList BuildList { get; set; }
 
-        public ResourceFactory ResourceBuildingFactory { get; set; }
+
         public ResourceBuilding IronMine { get; set; }
         public ResourceBuilding TimberCamp { get; set; }
         public ResourceBuilding ClayPit { get; set; }
 
-        public IBuildingFactory BuildingFactory { get; set; }
+
+
         public IWarehouse Warehouse { get; set; }
         public IFarm Farm { get; set; }
 
@@ -32,7 +32,11 @@ namespace TribalWarsCloneDomain.Models
         public ISmithy Smithy { get; set; }
         public IRallyPoint RallyPoint { get; set; }
 
-    
+        public void AddSmithy();
+
+
+
+
     }
 
     public class Village:IVillage
@@ -46,7 +50,6 @@ namespace TribalWarsCloneDomain.Models
         public IConstructionList BuildList { get; set; }
 
 
-        public ResourceFactory ResourceBuildingFactory { get; set; }
         public ResourceBuilding IronMine { get; set; }
         public ResourceBuilding TimberCamp { get; set; }
         public ResourceBuilding ClayPit { get; set; }
@@ -60,36 +63,13 @@ namespace TribalWarsCloneDomain.Models
         public IRallyPoint RallyPoint { get; set; }
 
         //Testing
-       
+
 
         public Village(string name)
         {
             currentLevel = 0;
             Name = name;
-
-            BuildingFactory = new ConcreteBuildingFactory();
-
-
-            Warehouse = BuildingFactory.CreateWarehouse();
-            Farm = BuildingFactory.CreateFarm();
-            RallyPoint = BuildingFactory.CreateRallyPoint();
-
-
-            ResourceBuildingFactory = new ConcreteResourceFactory(Warehouse, Farm);
-
-            BuildList = new ConstructionList((Farm)Farm);
-            IronMine = ResourceBuildingFactory.CreateIronMine();
-            TimberCamp = ResourceBuildingFactory.CreateTimberCamp();
-            ClayPit = ResourceBuildingFactory.CreateClayPit();
-
-
-
-
-            Smithy = ResourceBuildingFactory.CreateSmithy();
-            Smithy.Attach(RallyPoint);
-
-
-
+            //Smithy.Attach(RallyPoint);
 
         }
 
@@ -109,6 +89,23 @@ namespace TribalWarsCloneDomain.Models
         private void showInfo()
         {
             Console.WriteLine("VillageName:{0}", Name);
+        }
+
+        public void AddSmithy()
+        {
+            var objectRequirement = this.GetType().GetProperty("IronMine").GetValue(this, null);
+            var objectPropertyRequirement = objectRequirement.GetType().GetProperty("CurrentLevel").GetValue(objectRequirement, null);
+
+            Console.Write(objectPropertyRequirement);
+
+            if (IronMine.CurrentLevel == 2)
+            {
+                Console.WriteLine("Iron Mine should be level 2"); return;
+            }
+            if(this.Smithy == null)
+            {
+                this.Smithy = new ConcreteBuildingFactory().CreateSmithy(this.Farm,this.Warehouse); 
+            }
         }
 
         public void Print()

@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TribalWarsCloneDomain.Interfaces;
+using TribalWarsCloneDomain.Models;
 
-namespace TribalWarsCloneDomain.Models.Buildings
+namespace TribalWarsCloneDomain.utils.Interfaces
 {
     public interface IUpgradable
     {
         int MaxLevel { get; }
         int CurrentLevel { get; set; }
+        Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
-        public Cost ProductionCost { get; set; }
-        public Cost DestructionReturn { get; set; }
-    
         void Upgrade(IConstructionList buildList);
-        void WhenUpgradeIsComplete(Object source, ElapsedEventArgs e);
+        void WhenUpgradeIsComplete(object source, ElapsedEventArgs e);
         void Downgrade();
+        Cost GetLevelCost(int level);
 
     }
 }

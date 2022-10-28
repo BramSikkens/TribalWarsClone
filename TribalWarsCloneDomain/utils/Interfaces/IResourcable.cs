@@ -3,7 +3,7 @@ using TribalWarsCloneDomain.Models;
 
 namespace TribalWarsCloneDomain.utils.Interfaces
 {
-    public interface IResourceble
+    public interface IResourcable
     {
         public void UpdateResources();
         public void WithdrawResources(Cost cost);

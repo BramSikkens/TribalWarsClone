@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Timers;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.utils;
@@ -9,7 +10,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 {
 
 
-    public interface IWarehouse : IUpgradable, IObserver,IPrint, IResourceble
+    public interface IWarehouse : IUpgradable, IObserver,IPrint, IResourcable
     {
         public DateTime LastUpdated { get; set; }
         public int IronGain { get; set; }
@@ -24,6 +25,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
     }
 
+
     public class Warehouse:Building,IWarehouse
     {
         public int MaxLevel { get; }
@@ -31,8 +33,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public int WoodCount { get; set; }
         public int IronCount { get; set; }
         public int Capacity { get; set; }
-        public Cost ProductionCost { get; set; }
-        public Cost DestructionReturn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
+
 
         //testing
         public DateTime LastUpdated { get; set; }
@@ -46,9 +48,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
 
         public IFarm Farm { get; set; }
-       // IWarehouse IUpgradable.Warehouse { get; set; }
 
-        public Warehouse()
+
+        public Warehouse(Dictionary<int, Cost> productionCosts)
         {
             CurrentLevel = 1;
             MaxLevel = 20;
@@ -59,15 +61,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
             ClayCount = 1000;
             IronCount = 1000;
             WoodCount = 1000;
-
-            ProductionCost = new Cost
-            {
-                ClayCost = 2,
-                IronCost = 2,
-                WoodCost = 2,
-                ProductionTime = 1000
-
-            };
+            
+            ProductionCostsPerLevel = productionCosts;
 
         }
 
@@ -134,18 +129,18 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void Upgrade(IConstructionList buildList,IWarehouse warehouse, IFarm farm)
         {
             //First we check if there is enough in the warehouse
-            if (warehouse.CheckEnoughResources(ProductionCost))
+            if (warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel++)))
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel++), WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                warehouse.WithdrawResources(ProductionCost);
+                warehouse.WithdrawResources(GetLevelCost(CurrentLevel++));
             }
             else
             {
-                Console.WriteLine("Not enough Resources");
+                Console.WriteLine("Not enough EssentialResources");
             }
         }
 
@@ -206,6 +201,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
             UpdateResources();
             Console.WriteLine("Iron: {0} | Wood: {1} | Clay: {2}", IronCount, WoodCount, ClayCount);
 
+        }
+
+        public Cost GetLevelCost(int level)
+        {
+            return ProductionCostsPerLevel[level];
         }
     }
 }
