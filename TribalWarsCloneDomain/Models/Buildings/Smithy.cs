@@ -34,11 +34,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public ConstructionList developList { get; set; }
         public List<IObserverSmitthy> SmitthyObservers { get ; set; }
-
-
-        public List<string> requiredObjects { get; set; }
-        public Dictionary<string,string> requiredProperties { get; set; }
-      
+        public Requirement Requirement { get; set; }
 
         public Smithy(Dictionary<int, Cost> productionCosts, IFarm farm,IWarehouse warehouse)
         {
@@ -58,11 +54,13 @@ namespace TribalWarsCloneDomain.Models.Buildings
             developList = new ConstructionList(Farm);
 
             //Testing
-            requiredObjects = new List<string>();
-            requiredProperties = new Dictionary<string, string>();
+            Requirement = new Requirement()
+            {
+                BuildingRequirement = "IronMine",
+                PropertyRequirement = "CurrentLevel",
+                ValueRequirement = "3"
 
-            requiredObjects.Add("IronMine");
-            requiredProperties.Add("CurrentLevel","2");
+            };
         
         } 
 

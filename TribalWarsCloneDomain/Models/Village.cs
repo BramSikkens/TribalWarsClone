@@ -96,7 +96,7 @@ namespace TribalWarsCloneDomain.Models
             var objectRequirement = this.GetType().GetProperty("IronMine").GetValue(this, null);
             var objectPropertyRequirement = objectRequirement.GetType().GetProperty("CurrentLevel").GetValue(objectRequirement, null);
 
-            Console.Write(objectPropertyRequirement);
+
 
             if (IronMine.CurrentLevel == 2)
             {
