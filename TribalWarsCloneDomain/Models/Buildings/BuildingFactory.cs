@@ -5,45 +5,18 @@ using TribalWarsCloneDomain.Models.Buildings;
 using TribalWarsCloneDomain.Models;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.utils;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
     public class ConcreteBuildingFactory : IBuildingFactory
     {
-        private Dictionary<int, Cost> BuildingCosts = new Dictionary<int, Cost>()
-        {
-
-            { 1, new Cost(){
-            WoodCost=1,
-            IronCost=1,
-            ClayCost=1,
-            VillagerCost=1,
-            ProductionTime=1000} },
-               { 2, new Cost(){
-            WoodCost=2,
-            IronCost=2,
-            ClayCost=2,
-            VillagerCost=2,
-            ProductionTime=2000} },
-                  { 3, new Cost(){
-            WoodCost=3,
-            IronCost=3,
-            ClayCost=3,
-            VillagerCost=3,
-            ProductionTime=3000} }
-        };
+    
 
         public IFarm CreateFarm()
         {
-            Cost initialCost = (new Cost
-            {
-                ClayCost = 1,
-                IronCost = 1,
-                WoodCost = 1,
-                VillagerCost = 10,
-                ProductionTime = 100000
-            });
-            return new Farm(BuildingCosts);
+         
+            return new Farm();
         }
 
         public IRallyPoint CreateRallyPoint()
@@ -58,7 +31,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public IWarehouse CreateWarehouse()
         {
-            return new Warehouse(BuildingCosts);
+            return new Warehouse();
         }
 
         public IHeadQuarters CreateHeadQuarters()
@@ -69,9 +42,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public ClayPit CreateClayPit(IFarm farm, IWarehouse warehouse)
         {
 
-            int maxLevel = 20;
 
-            ClayPit newClayPit = new ClayPit(BuildingCosts, maxLevel, farm, warehouse);
+            ClayPit newClayPit = new ClayPit( farm, warehouse);
             if (newClayPit is ISubject)
             {
                 (newClayPit as ISubject).Attach(warehouse);
@@ -81,9 +53,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public TimberCamp CreateTimberCamp(IFarm farm, IWarehouse warehouse)
         {
-            int maxLevel = 20;
 
-            TimberCamp newTimberCamp = new TimberCamp(BuildingCosts, maxLevel, farm, warehouse);
+            TimberCamp newTimberCamp = new TimberCamp(farm, warehouse);
 
             if (newTimberCamp is ISubject)
             {
@@ -95,8 +66,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public IronMine CreateIronMine(IFarm farm, IWarehouse warehouse)
         {
-            int maxLevel = 20;
-            IronMine newIronMine = new IronMine(BuildingCosts, maxLevel, farm, warehouse);
+            IronMine newIronMine = new IronMine(farm, warehouse);
 
             if (newIronMine is ISubject)
             {
@@ -108,12 +78,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public Smithy CreateSmithy(IFarm farm, IWarehouse warehouse)
         {
-   
-            int maxLevel = 20;
-            Smithy newSmithy = new Smithy(BuildingCosts, farm, warehouse);
 
-
-
+            
+            Smithy newSmithy = new Smithy(farm, warehouse);
             return newSmithy;
         }
     }

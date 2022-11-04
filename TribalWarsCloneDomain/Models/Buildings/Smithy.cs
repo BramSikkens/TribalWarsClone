@@ -9,11 +9,12 @@ using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Soldiers;
 using TribalWarsCloneDomain.utils;
 using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
 
-    public interface ISmithy : IUpgradable, IArmyCreator, ISubjectSmithy, IPrint, INeedRequirements
+    public interface ISmithy : IUpgradable, IArmyCreator, ISubjectSmithy, IPrint
     {
         ConstructionList developList { get; set;}
     }
@@ -24,23 +25,19 @@ namespace TribalWarsCloneDomain.Models.Buildings
     {
 
         //IUpgradable
-        public int MaxLevel { get; set; }
         public IFarm Farm { get; set; }
         public IWarehouse Warehouse { get; set; }
-        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
         //ISoldierCreator
         public Dictionary<string,Soldier> Soldiers { get; set; }
 
         public ConstructionList developList { get; set; }
         public List<IObserverSmitthy> SmitthyObservers { get ; set; }
-        public Requirement Requirement { get; set; }
 
-        public Smithy(Dictionary<int, Cost> productionCosts, IFarm farm,IWarehouse warehouse)
+
+        public Smithy(IFarm farm, IWarehouse warehouse)
         {
             CurrentLevel = 1;
-            ProductionCostsPerLevel = productionCosts;
-            MaxLevel = 20;
             Farm = farm;
 
             Warehouse = warehouse;
@@ -53,14 +50,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
             developList = new ConstructionList(Farm);
 
-            //Testing
-            Requirement = new Requirement()
-            {
-                BuildingRequirement = "IronMine",
-                PropertyRequirement = "CurrentLevel",
-                ValueRequirement = "3"
 
-            };
+           
         
         } 
 
@@ -72,7 +63,6 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void WhenUpgradeIsComplete(object source, ElapsedEventArgs e)
         {
             CurrentLevel++;
-  
             Console.WriteLine("Smithy Upgraded");
         }
 
@@ -207,7 +197,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public Cost GetLevelCost(int level)
         {
-            return ProductionCostsPerLevel[level];
+            return WorldSettings.SmithyProductionCosts[level.ToString()];
         }
     }
 }

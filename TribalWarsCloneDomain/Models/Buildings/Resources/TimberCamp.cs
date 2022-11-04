@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
@@ -12,7 +13,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
     {
 
 
-        public TimberCamp(Dictionary<int,Cost> initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
+        public TimberCamp(IFarm farm, IWarehouse warehouse) : base(farm, warehouse)
         {
             Gain = 1;
         }
@@ -25,6 +26,12 @@ namespace TribalWarsCloneDomain.Models.Buildings
             Console.WriteLine("TimberCamp Upgraded");
             //Notify observers that I am upgraded
             Notify();
+        }
+
+        public override Cost GetLevelCost(int level)
+        {
+            return WorldSettings.TimberCampProductionCosts[level];
+
         }
     }
 }

@@ -16,8 +16,8 @@ start();
  void start()
 {
     //displayWorldMenu();
-     WorldDTO dto =  WorldSettingsReader.Read<WorldDTO>("C:\\Users\\Bram Sikkens\\Desktop\\TribalWarsClone\\TribalWarsClone\\World1.json");
-    Console.WriteLine(dto);
+    //WorldDTO dto =  WorldSettingsReader.Read<WorldDTO>("C:\\Users\\Bram Sikkens\\Desktop\\TribalWarsClone\\TribalWarsClone\\World1.json");
+    //Console.WriteLine(dto);
     displayWorldMenu();
 
 }

@@ -5,6 +5,7 @@ using System.Timers;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.utils;
 using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
@@ -28,12 +29,10 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
     public class Warehouse:Building,IWarehouse
     {
-        public int MaxLevel { get; }
         public int ClayCount { get; set; }
         public int WoodCount { get; set; }
         public int IronCount { get; set; }
         public int Capacity { get; set; }
-        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
 
         //testing
@@ -50,10 +49,9 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public IFarm Farm { get; set; }
 
 
-        public Warehouse(Dictionary<int, Cost> productionCosts)
+        public Warehouse()
         {
             CurrentLevel = 1;
-            MaxLevel = 20;
             Capacity = 10;
 
             //testing
@@ -62,7 +60,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             IronCount = 1000;
             WoodCount = 1000;
             
-            ProductionCostsPerLevel = productionCosts;
+
 
         }
 
@@ -205,7 +203,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public Cost GetLevelCost(int level)
         {
-            return ProductionCostsPerLevel[level];
+            return WorldSettings.WarehouseProductionCosts[level.ToString()];
+
         }
     }
 }

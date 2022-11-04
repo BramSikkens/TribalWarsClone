@@ -7,7 +7,7 @@ namespace TribalWarsCloneDomain.utils.Interfaces
 {
     public interface INeedRequirements
     {
-        public Requirement Requirement { get; set; }
+        public static Requirement Requirement { get; set; }
 
     }
 }

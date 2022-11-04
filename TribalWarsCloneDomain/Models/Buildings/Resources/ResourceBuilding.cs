@@ -22,14 +22,13 @@ namespace TribalWarsCloneDomain.Models.Buildings
         //To Test
         public List<IResourcable> EssentialResources { get; set; }
 
-        public ResourceBuilding(Dictionary<int,Cost> productionCosts, int maxLevel, IFarm farm, IWarehouse warehouse)
+        public ResourceBuilding(IFarm farm, IWarehouse warehouse)
         {
             CurrentLevel = 1;
-            MaxLevel = maxLevel;
             Warehouse = warehouse;
             Farm = farm;
             Observers = new List<IObserver>();
-            ProductionCostsPerLevel = productionCosts;
+
 
             EssentialResources = new List<IResourcable>();
 
@@ -42,10 +41,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         }
 
 
-        public Cost GetLevelCost(int level)
-        {
-            return ProductionCostsPerLevel[level];
-        }
+        public abstract Cost GetLevelCost(int level);
+       
 
         public void Downgrade()
         {
@@ -54,25 +51,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public void Upgrade(IConstructionList buildList)
         {
-            //Boolean enoughResources = Warehouse.CheckEnoughResources(ProductionCost);
-            //Boolean enoughVillagers = Farm.CheckEnoughResources(ProductionCost);
-
-            ////First we check if there is enough in the warehouse
-            //if (enoughResources && enoughVillagers)
-            //{
-            //    //We create a buildTask(ITem) 
-            //    ConstructionItem bi = new ConstructionItem(this.ProductionCost, WhenUpgradeIsComplete);
-            //    //And add it to the given list
-            //    buildList.AddItem(bi);
-            //    //Remove cost from Warehouse
-            //    Warehouse.WithdrawResources(ProductionCost);
-            //    Farm.WithdrawResources(ProductionCost);
-
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Not enough EssentialResources");
-            //}
+            
 
 
             Boolean enoughResources = true; 
@@ -135,7 +114,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             Console.WriteLine("Level: {0}", CurrentLevel);
             Console.Write("Upgrade Cost -> ");
-            GetLevelCost(CurrentLevel++).Print();
+            GetLevelCost(CurrentLevel+ 1).Print();
         }
     }
 

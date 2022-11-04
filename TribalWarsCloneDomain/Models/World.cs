@@ -9,7 +9,6 @@ namespace TribalWarsCloneDomain.Models
     {
         public string Id { get; set; }
         public Dictionary<string,Village> Villages { get; set; }
-
         public World()
         {
             Villages = new Dictionary<string, Village>();
@@ -28,6 +27,9 @@ namespace TribalWarsCloneDomain.Models
                 item.Value.Print();
             }
         }
+
+
+       //Settings should be here and static
       
     }
 }

@@ -7,36 +7,28 @@ using System.Timers;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.utils;
 using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
     public interface IFarm: IUpgradable,IPrint,IResourcable
     {
-
         public int PopulationInFarm { get; set; }
         public int PopulationCount { get; set; }
-
-    
-
     }
 
 
     public class Farm : Building,IFarm
     {
-        public int MaxLevel { get; }
         public int PopulationCount { get; set; }
         public int PopulationInFarm { get; set; }
         public IWarehouse Warehouse { get; set; }
 
-        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
-
-        public Farm(Dictionary<int, Cost> productionCosts)
+        public Farm()
         {
             CurrentLevel = 1;
-            MaxLevel = 20; 
             PopulationCount = 240;
             PopulationInFarm = 240;
-            ProductionCostsPerLevel = productionCosts;
         }
 
         public void Downgrade()
@@ -102,7 +94,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public Cost GetLevelCost(int level)
         {
-            return ProductionCostsPerLevel[level];
+            return WorldSettings.FarmProductionCosts[level.ToString()];
         }
     }
 }

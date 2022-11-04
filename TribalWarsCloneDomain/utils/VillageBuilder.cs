@@ -10,8 +10,8 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
     public class VillageBuilder
     {
        private WorldDTO WorldSettings { get; set; }
-        private Village Village { get;set; }
-        private IBuildingFactory BuildingFactory { get; set; }
+       private Village Village { get;set; }
+       private IBuildingFactory BuildingFactory { get; set; }
 
         public VillageBuilder(WorldDTO worldSettings)
         {
@@ -70,6 +70,8 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
 
         private void GenerateSmithy()
         {
+
+            //Testing
             Village.Smithy = BuildingFactory.CreateSmithy(Village.Farm, Village.Warehouse);
             Village.Smithy.Attach(Village.RallyPoint);
         }

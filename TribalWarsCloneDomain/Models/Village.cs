@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Buildings;
 using TribalWarsCloneDomain.utils;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models
 {
@@ -31,6 +32,8 @@ namespace TribalWarsCloneDomain.Models
 
         public ISmithy Smithy { get; set; }
         public IRallyPoint RallyPoint { get; set; }
+
+        public Dictionary<string,Requirement> BuildingRequirements { get; set; }
 
         public void AddSmithy();
 
@@ -59,6 +62,10 @@ namespace TribalWarsCloneDomain.Models
         public IFarm Farm { get; set; }
 
 
+        public Dictionary<string, Requirement> BuildingRequirements { get; set; }
+
+
+
         public ISmithy Smithy { get; set; }
         public IRallyPoint RallyPoint { get; set; }
 
@@ -70,6 +77,15 @@ namespace TribalWarsCloneDomain.Models
             currentLevel = 0;
             Name = name;
             //Smithy.Attach(RallyPoint);
+
+            BuildingRequirements = new Dictionary<string, Requirement>();
+            BuildingRequirements.Add(nameof(Smithy), new Requirement()
+            {
+                BuildingRequirement = "IronMine",
+                PropertyRequirement = "CurrentLevel",
+                ValueRequirement = "3"
+
+            });
 
         }
 
@@ -93,8 +109,8 @@ namespace TribalWarsCloneDomain.Models
 
         public void AddSmithy()
         {
-            var objectRequirement = this.GetType().GetProperty("IronMine").GetValue(this, null);
-            var objectPropertyRequirement = objectRequirement.GetType().GetProperty("CurrentLevel").GetValue(objectRequirement, null);
+            var objectRequirement = this.GetType().GetProperty(BuildingRequirements[nameof(Smithy)].BuildingRequirement).GetValue(this, null);
+            var objectPropertyRequirement = objectRequirement.GetType().GetProperty(BuildingRequirements[nameof(Smithy)].PropertyRequirement).GetValue(BuildingRequirements[nameof(Smithy)].ValueRequirement, null);
 
 
 

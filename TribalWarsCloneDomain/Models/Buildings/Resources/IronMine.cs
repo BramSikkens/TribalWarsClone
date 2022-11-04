@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Timers;
 using TribalWarsCloneDomain.utils;
 using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models.Buildings
 {
     public class IronMine : ResourceBuilding, IUpgradable
     {
 
-        public IronMine(Dictionary<int,Cost> initialCost, int maxLevel, IFarm farm, IWarehouse warehouse) : base(initialCost, maxLevel, farm, warehouse)
+        public IronMine(IFarm farm, IWarehouse warehouse) : base(farm, warehouse)
         {
 
             Gain = 1;
@@ -29,7 +30,12 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         }
 
+        public override Cost GetLevelCost(int level)
+        {
+            return WorldSettings.IronMineProductionCosts[level];
 
-       
+        }
+
+
     }
 }
