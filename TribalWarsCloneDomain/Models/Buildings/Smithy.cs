@@ -34,6 +34,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public ConstructionList developList { get; set; }
         public List<IObserverSmitthy> SmitthyObservers { get ; set; }
 
+        public SoldierFactory SoldierFactory { get; set; }
+
 
         public Smithy(IFarm farm, IWarehouse warehouse)
         {
@@ -49,7 +51,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             Soldiers.Add(nameof(SpearSoldier), null);
 
             developList = new ConstructionList(Farm);
-
+            SoldierFactory = new SoldierFactory();
 
            
         
@@ -69,14 +71,14 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void Upgrade(IConstructionList buildList)
         {
             //First we check if there is enough in the warehouse
-            if (Warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel++)))
+            if (Warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel + 1)))
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel++), WhenUpgradeIsComplete);
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel +1), WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                Warehouse.WithdrawResources(GetLevelCost(CurrentLevel++));
+                Warehouse.WithdrawResources(GetLevelCost(CurrentLevel + 1));
             }
             else
             {
@@ -96,15 +98,14 @@ namespace TribalWarsCloneDomain.Models.Buildings
             {
                 case nameof(SpearSoldier):
                     {
-                        Cost spearSoldierCost = new Cost { ClayCost = 3, IronCost = 1, WoodCost = 5, VillagerCost = 1, ProductionTime = 5021 };
-                        if (Warehouse.CheckEnoughResources(spearSoldierCost))
+
+                        if (Warehouse.CheckEnoughResources(WorldSettings.SpearSoldierCosts[1]))
                         {
-                            Warehouse.WithdrawResources(spearSoldierCost);
-                            ConstructionItem developSoldier = new ConstructionItem(spearSoldierCost, (Object source, ElapsedEventArgs e) =>
+                            Warehouse.WithdrawResources(WorldSettings.SpearSoldierCosts[1]);
+                            ConstructionItem developSoldier = new ConstructionItem(WorldSettings.SpearSoldierCosts[1], (Object source, ElapsedEventArgs e) =>
                             {
                                 Console.WriteLine("Soldier Developed");
-                                Cost upgradedSpearSoldierCost = new Cost { ClayCost = 5, IronCost = 3, WoodCost = 3, VillagerCost = 1, ProductionTime = 1000 };
-                                Soldiers[nameof(SpearSoldier)] = new SpearSoldier(upgradedSpearSoldierCost, 18, 25, 10, 15, 45, 20);
+                                Soldiers[nameof(SpearSoldier)] = SoldierFactory.CreateSpearSoldier();
 
                             });
 
@@ -134,11 +135,11 @@ namespace TribalWarsCloneDomain.Models.Buildings
                 ConstructionList SoldierTrainingList = new ConstructionList(Farm); 
                 for(int i =0; i < amount; i++)
                 {
-                    Cost cost = Soldiers[type].ProductionCost;
-                    if (Warehouse.CheckEnoughResources(cost))
+                   
+                    if (Warehouse.CheckEnoughResources(WorldSettings.SpearSoldierCosts[1]))
                     {
                         Warehouse.WithdrawResources(GetLevelCost(CurrentLevel));
-                        ConstructionItem newSoldier = new ConstructionItem(cost, (Object source, ElapsedEventArgs e) =>
+                        ConstructionItem newSoldier = new ConstructionItem(WorldSettings.SpearSoldierCosts[1], (Object source, ElapsedEventArgs e) =>
                         {
                             Console.WriteLine("Soldier Trained -> Sent to RallyPoint");
                             NotifySoldierTrainingComplete(type, 1);
@@ -165,7 +166,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             {
                 if(item.Value!= null)
                 {
-                    Console.WriteLine("Unit:" +item.Key + " | WoodCost:{0} | ClayCost:{1} | IronCost:{2} | ProductionTime: {3}", item.Value.ProductionCost.WoodCost, item.Value.ProductionCost.ClayCost, item.Value.ProductionCost.WoodCost, item.Value.ProductionCost.ProductionTime);
+                   // Console.WriteLine("Unit:" +item.Key + " | WoodCost:{0} | ClayCost:{1} | IronCost:{2} | ProductionTime: {3}", item.Value.ProductionCost.WoodCost, item.Value.ProductionCost.ClayCost, item.Value.ProductionCost.WoodCost, item.Value.ProductionCost.ProductionTime);
 
                 }
             }

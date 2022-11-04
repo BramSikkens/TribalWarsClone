@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Timers;
+using TribalWarsCloneDomain.Interfaces;
+using TribalWarsCloneDomain.utils.Interfaces;
 
 namespace TribalWarsCloneDomain.Models.Soldiers
 {
-    public abstract class Soldier
+    public abstract class Soldier:IUpgradable
     {
-        public Cost ProductionCost { get; set; }
-        public int Speed { get; set; }
-        public int Capacity { get; set; }
+        public SoldierStats Stats { get; set; }
+        public int CurrentLevel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public int AttackingPower { get; set; }
-        public int GeneralDefence { get; set; }
-        public int CavalaryDefence { get; set; }
-        public int ArcheryDefence { get; set; }
-
-        public Soldier(Cost productionCost,int speed,int capacity, int attackPower,int generalDefence,int cavalaryDefence,int archeryDefence)
+        public Soldier(SoldierStats stats)
         {
            
-            ProductionCost = productionCost;
-            Speed = speed;
-            Capacity = capacity;
-            AttackingPower = attackPower;
-            GeneralDefence = generalDefence;
-            CavalaryDefence = cavalaryDefence;
-            ArcheryDefence = archeryDefence;
+          Stats=stats;
         }
+
+        public abstract void Upgrade(IConstructionList buildList);
+
+        public abstract void WhenUpgradeIsComplete(object source, ElapsedEventArgs e);
+
+        public abstract void Downgrade();
+
+        public abstract Cost GetLevelCost(int level);
+  
     }
 }

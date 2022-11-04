@@ -11,12 +11,10 @@ namespace TribalWarsCloneDomain.Models.Buildings
     {
 
         public int MaxLevel { get; set; }
-        public Cost DestructionReturn { get; set; }
         public int Gain { get; set; }
         public IFarm Farm { get; set; }
         public IResourcable Warehouse { get; set; }
         public List<IObserver> Observers { get; set; }
-        public Dictionary<int, Cost> ProductionCostsPerLevel { get; set; }
 
         
         //To Test

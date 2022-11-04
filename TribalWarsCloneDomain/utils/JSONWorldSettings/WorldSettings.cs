@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using TribalWarsCloneDomain.Models;
+using TribalWarsCloneDomain.Models.Soldiers;
 
 namespace TribalWarsCloneDomain.utils.JSONWorldSettings
 {
@@ -34,7 +36,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
         };
 
         public static bool TimberCampbaseBuild = true;
-        public static int TimberCampMaxLevel = 20; 
+        public static int TimberCampMaxLevel = 20;
         public static Dictionary<int, Cost> TimberCampProductionCosts = new Dictionary<int, Cost>()
         {
             { 1, new Cost(){
@@ -60,7 +62,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
         };
 
         public static bool ClayPitbaseBuild = true;
-        public static int ClayPitMaxLevel = 20; 
+        public static int ClayPitMaxLevel = 20;
         public static Dictionary<string, Cost> ClayPitProductionCosts = new Dictionary<string, Cost>()
         {
             { "1", new Cost(){
@@ -192,6 +194,267 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
             ProductionTime=3000} }
 
         };
+
+        public static Requirement SmithyRequirement = new Requirement()
+        {
+            BuildingRequirement = "IronMine",
+            PropertyRequirement = "CurrentLevel",
+            ValueRequirement = "2"
+        };
+
+        public static Dictionary<int, Cost> SpearSoldierCosts = new Dictionary<int, Cost>()
+        {
+            {  1,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             2,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             3,new Cost()
+        {
+            WoodCost = 30,
+            IronCost = 30,
+            ClayCost = 30,
+            VillagerCost = 3,
+            ProductionTime = 3000}
+    },
+
+        };
+
+        public static Dictionary<int, Cost> AxeSoldierCosts = new Dictionary<int, Cost>()
+        {
+            {  1,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             2,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             3,new Cost()
+        {
+            WoodCost = 30,
+            IronCost = 30,
+            ClayCost = 30,
+            VillagerCost = 3,
+            ProductionTime = 3000}
+    },
+
+        };
+
+        public static Dictionary<int, Cost> SwordSoldierCosts = new Dictionary<int, Cost>()
+        {
+            {  1,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             2,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             3,new Cost()
+        {
+            WoodCost = 30,
+            IronCost = 30,
+            ClayCost = 30,
+            VillagerCost = 3,
+            ProductionTime = 3000}
+    },
+
+        };
+
+        public static Dictionary<int, Cost> ArcherySoldierCosts = new Dictionary<int, Cost>()
+        {
+            {  1,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             2,new Cost(){
+            WoodCost=30,
+            IronCost=30,
+            ClayCost=30,
+            VillagerCost=3,
+            ProductionTime=3000}
+            },{
+             3,new Cost()
+        {
+            WoodCost = 30,
+            IronCost = 30,
+            ClayCost = 30,
+            VillagerCost = 3,
+            ProductionTime = 3000}
+    },
+
+        };
+
+
+        public static Dictionary<int, SoldierStats> SpearSoldierStats = new Dictionary<int, SoldierStats>()
+        {
+            {1,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {2,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {3,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            }
+
+            };
+
+        public static Dictionary<int, SoldierStats> SwordSoldierStats = new Dictionary<int, SoldierStats>()
+        {
+            {1,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {2,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {3,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            }
+
+            };
+
+        public static Dictionary<int, SoldierStats> AxeSoldierStats = new Dictionary<int, SoldierStats>()
+        {
+            {1,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {2,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {3,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            }
+
+            };
+
+        public static Dictionary<int, SoldierStats> ArcherySoldierStats = new Dictionary<int, SoldierStats>()
+        {
+            {1,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {2,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            },            {3,
+                new SoldierStats()
+                {
+                    Speed = 1,
+                    Capacity = 1,
+                    ArcheryDefence = 1,
+                    AttackingPower = 1,
+                    GeneralDefence = 1,
+                    CavalaryDefence = 1,
+                }
+            }
+
+            };
+
 
     }
 }

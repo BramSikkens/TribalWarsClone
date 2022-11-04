@@ -51,7 +51,7 @@ void createNewVillage()
 {
     
         Console.WriteLine("Hello! Welcome to TribalClone");
-        Console.Write("Give me your name");
+        Console.Write("Give me your name: ");
         string name = Console.ReadLine();
         Console.Write("Tell me the name of your village: ");
         string newVillageName = Console.ReadLine();

@@ -1,4 +1,6 @@
 ﻿using System;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
+
 namespace TribalWarsCloneDomain.Models.Soldiers
 {
     public interface ISoldierFactory
@@ -17,26 +19,22 @@ namespace TribalWarsCloneDomain.Models.Soldiers
 
         public ArcherySoldier CreateArcherySoldier()
         {
-            Cost cost = new Cost { ClayCost = 3, IronCost = 1, WoodCost = 5, VillagerCost = 1, ProductionTime = 5021 };
-            return new ArcherySoldier(cost, 18, 25, 10, 15, 45, 20);
+            return new ArcherySoldier(WorldSettings.ArcherySoldierStats[1]);
         }
 
         public AxeSoldier CreateAxeSoldier()
         {
-            Cost cost = new Cost { ClayCost = 3, IronCost = 1, WoodCost = 5, VillagerCost = 1, ProductionTime = 5021 };
-            return new AxeSoldier(cost, 18, 25, 10, 15, 45, 20);
+            return new AxeSoldier( WorldSettings.AxeSoldierStats[1]);
         }
 
         public SpearSoldier CreateSpearSoldier()
         {
-            Cost spearSoldierCost = new Cost { ClayCost = 3, IronCost = 1, WoodCost = 5, VillagerCost = 1, ProductionTime = 5021 };
-            return new SpearSoldier(spearSoldierCost, 18, 25, 10, 15, 45, 20);
+            return new SpearSoldier(WorldSettings.SpearSoldierStats[1]);
         }
 
         public SwordSoldier CreateSwordSoldier()
         {
-            Cost cost = new Cost { ClayCost = 3, IronCost = 1, WoodCost = 5, VillagerCost = 1, ProductionTime = 5021 };
-            return new SwordSoldier(cost, 18, 25, 10, 15, 45, 20);
+            return new SwordSoldier(WorldSettings.SwordSoldierStats[1]);
         }
     }
 }

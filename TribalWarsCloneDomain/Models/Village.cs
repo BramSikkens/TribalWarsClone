@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.Models.Buildings;
 using TribalWarsCloneDomain.utils;
 using TribalWarsCloneDomain.utils.Interfaces;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
 namespace TribalWarsCloneDomain.Models
 {
@@ -33,7 +35,6 @@ namespace TribalWarsCloneDomain.Models
         public ISmithy Smithy { get; set; }
         public IRallyPoint RallyPoint { get; set; }
 
-        public Dictionary<string,Requirement> BuildingRequirements { get; set; }
 
         public void AddSmithy();
 
@@ -62,7 +63,6 @@ namespace TribalWarsCloneDomain.Models
         public IFarm Farm { get; set; }
 
 
-        public Dictionary<string, Requirement> BuildingRequirements { get; set; }
 
 
 
@@ -76,21 +76,42 @@ namespace TribalWarsCloneDomain.Models
         {
             currentLevel = 0;
             Name = name;
-            //Smithy.Attach(RallyPoint);
-
-            BuildingRequirements = new Dictionary<string, Requirement>();
-            BuildingRequirements.Add(nameof(Smithy), new Requirement()
-            {
-                BuildingRequirement = "IronMine",
-                PropertyRequirement = "CurrentLevel",
-                ValueRequirement = "3"
-
-            });
-
+            BuildingFactory = new ConcreteBuildingFactory(); 
         }
 
-        private void printBuildings()
+
+   
+
+      
+        //Dit moet beter
+        public void AddSmithy()
         {
+            //Get The Object Requirement
+            var objectRequirement = this.GetType().GetProperty(WorldSettings.SmithyRequirement.BuildingRequirement).GetValue(this,null);
+            //Get The property Requiremnt and its value
+            var objectPropertyRequirement = objectRequirement.GetType().GetProperty(WorldSettings.SmithyRequirement.PropertyRequirement).GetValue(objectRequirement,null);
+
+            //check if the value of the property is == to the requirement
+            if (objectPropertyRequirement.ToString() == WorldSettings.SmithyRequirement.ValueRequirement )
+            {
+                
+                ConstructionItem ci = new ConstructionItem(WorldSettings.SmithyProductionCosts["1"], (object source, ElapsedEventArgs e) =>{ this.Smithy = this.BuildingFactory.CreateSmithy(this.Farm, this.Warehouse);  this.Smithy.Attach(RallyPoint);});
+                    this.BuildList.AddItem(ci);
+              
+            }
+            else
+            {
+                Console.WriteLine("{0} should have {1}:{2}", WorldSettings.SmithyRequirement.BuildingRequirement, WorldSettings.SmithyRequirement.PropertyRequirement, WorldSettings.SmithyRequirement.ValueRequirement);
+            }
+            
+        }
+
+        
+
+
+        public void Print()
+        {
+            Console.WriteLine("VillageName:{0}", Name);
             Console.WriteLine("------ClayPit------");
             ClayPit.Print();
             Console.WriteLine();
@@ -100,33 +121,6 @@ namespace TribalWarsCloneDomain.Models
             Console.WriteLine("------IronMine------");
             IronMine.Print();
             Console.WriteLine();
-        }
-
-        private void showInfo()
-        {
-            Console.WriteLine("VillageName:{0}", Name);
-        }
-
-        public void AddSmithy()
-        {
-            var objectRequirement = this.GetType().GetProperty(BuildingRequirements[nameof(Smithy)].BuildingRequirement).GetValue(this, null);
-            var objectPropertyRequirement = objectRequirement.GetType().GetProperty(BuildingRequirements[nameof(Smithy)].PropertyRequirement).GetValue(BuildingRequirements[nameof(Smithy)].ValueRequirement, null);
-
-
-
-            if (IronMine.CurrentLevel == 2)
-            {
-                Console.WriteLine("Iron Mine should be level 2"); return;
-            }
-            if(this.Smithy == null)
-            {
-                this.Smithy = new ConcreteBuildingFactory().CreateSmithy(this.Farm,this.Warehouse); 
-            }
-        }
-
-        public void Print()
-        {
-            showInfo();
         }
     }
 
