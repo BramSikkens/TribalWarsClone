@@ -39,6 +39,12 @@ namespace TribalWarsCloneDomain.Models.Buildings
       
         public void Upgrade(IConstructionList buildList)
         {
+            if (CurrentLevel == WorldSettings.FarmMaxLevel)
+            {
+                Console.WriteLine("Cannot upgrade anymore");
+                return;
+            }
+
             //First we check if there is enough in the warehouse
             if (Warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel++)))
             {

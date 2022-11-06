@@ -14,4 +14,9 @@ namespace TribalWarsCloneDomain.utils
     {
         public void UpdateRallyPoin(string type, int amount);
     }
+
+ 
+
+
+
 }

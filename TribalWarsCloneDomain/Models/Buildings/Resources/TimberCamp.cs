@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TribalWarsCloneDomain.Interfaces;
 using TribalWarsCloneDomain.utils.Interfaces;
 using TribalWarsCloneDomain.utils.JSONWorldSettings;
 
@@ -32,6 +33,17 @@ namespace TribalWarsCloneDomain.Models.Buildings
         {
             return WorldSettings.TimberCampProductionCosts[level];
 
+        }
+
+        public override void Upgrade(IConstructionList buildlist)
+        {
+            if (CurrentLevel == WorldSettings.TimberCampMaxLevel)
+            {
+                Console.WriteLine("Cannot upgrade anymore");
+                return;
+            }
+
+            base.Upgrade(buildlist);
         }
     }
 }

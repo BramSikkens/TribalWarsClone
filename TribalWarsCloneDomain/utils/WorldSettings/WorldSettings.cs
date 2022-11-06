@@ -10,7 +10,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
     {
 
         public static bool IronMinebaseBuild = true;
-        public static int IronMineMaxLevel = 20;
+        public static int IronMineMaxLevel = 3;
         public static Dictionary<int, Cost> IronMineProductionCosts = new Dictionary<int, Cost>()
         {
             { 1, new Cost(){
@@ -36,7 +36,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
         };
 
         public static bool TimberCampbaseBuild = true;
-        public static int TimberCampMaxLevel = 20;
+        public static int TimberCampMaxLevel = 3;
         public static Dictionary<int, Cost> TimberCampProductionCosts = new Dictionary<int, Cost>()
         {
             { 1, new Cost(){
@@ -62,7 +62,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
         };
 
         public static bool ClayPitbaseBuild = true;
-        public static int ClayPitMaxLevel = 20;
+        public static int ClayPitMaxLevel = 3;
         public static Dictionary<string, Cost> ClayPitProductionCosts = new Dictionary<string, Cost>()
         {
             { "1", new Cost(){
@@ -87,7 +87,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
         };
 
         public static bool WarehousebaseBuild = true;
-        public static int WarehouseMaxLevel = 20;
+        public static int WarehouseMaxLevel = 3;
         public static Dictionary<string, Cost> WarehouseProductionCosts = new Dictionary<string, Cost>()
         {
            { "1", new Cost(){
@@ -113,7 +113,7 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
 
 
         public static bool FarmbaseBuild = true;
-        public static int FarmMaxLevel = 20;
+        public static int FarmMaxLevel = 3;
         public static Dictionary<string, Cost> FarmProductionCosts = new Dictionary<string, Cost>()
         {
            { "1", new Cost(){

@@ -47,7 +47,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
             throw new NotImplementedException();
         }
 
-        public void Upgrade(IConstructionList buildList)
+        public virtual void Upgrade(IConstructionList buildList)
         {
             
 

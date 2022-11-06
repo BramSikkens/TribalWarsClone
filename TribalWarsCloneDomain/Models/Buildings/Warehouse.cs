@@ -56,9 +56,17 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
             //testing
             LastUpdated = DateTime.Now;
-            ClayCount = 1000;
-            IronCount = 1000;
-            WoodCount = 1000;
+            ClayCount = 0;
+            IronCount = 0;
+            WoodCount = 0;
+
+            IronGain = 1;
+            WoodGain = 1;
+            ClayGain = 1;
+
+            IronLevel = 1;
+            WoodLevel = 1;
+            ClayLevel = 1;
             
 
 
@@ -127,14 +135,14 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void Upgrade(IConstructionList buildList,IWarehouse warehouse, IFarm farm)
         {
             //First we check if there is enough in the warehouse
-            if (warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel++)))
+            if (warehouse.CheckEnoughResources(GetLevelCost(CurrentLevel + 1)))
             {
                 //We create a buildTask(ITem) 
-                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel++), WhenUpgradeIsComplete);
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel + 1), WhenUpgradeIsComplete);
                 //And add it to the given list
                 buildList.AddItem(bi);
                 //Remove cost from Warehouse
-                warehouse.WithdrawResources(GetLevelCost(CurrentLevel++));
+                warehouse.WithdrawResources(GetLevelCost(CurrentLevel + 1));
             }
             else
             {
@@ -170,7 +178,25 @@ namespace TribalWarsCloneDomain.Models.Buildings
 
         public void Upgrade(IConstructionList buildList)
         {
-            throw new NotImplementedException();
+            if(CurrentLevel == WorldSettings.WarehouseMaxLevel)
+            {
+                Console.WriteLine("Cannot upgrade anymore");
+                return;
+            }
+
+            if(CheckEnoughResources(GetLevelCost(CurrentLevel + 1))){
+                //We create a buildTask(ITem) 
+                ConstructionItem bi = new ConstructionItem(GetLevelCost(CurrentLevel + 1), WhenUpgradeIsComplete);
+                //And add it to the given list
+                buildList.AddItem(bi);
+                //Remove cost from Warehouse
+                WithdrawResources(GetLevelCost(CurrentLevel + 1));
+
+            }
+            else
+            {
+                Console.WriteLine("Not enough EssentialResources");
+            }
         }
 
         public void Update(ISubject subject)
@@ -197,7 +223,7 @@ namespace TribalWarsCloneDomain.Models.Buildings
         public void Print()
         {
             UpdateResources();
-            Console.WriteLine("Iron: {0} | Wood: {1} | Clay: {2}", IronCount, WoodCount, ClayCount);
+            Console.WriteLine("Iron: {0}/{1} | Wood: {2}/{3} | Clay: {4}/{5}", IronCount,Capacity, WoodCount,Capacity, ClayCount,Capacity);
 
         }
 

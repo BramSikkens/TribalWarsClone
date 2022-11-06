@@ -50,6 +50,8 @@ namespace TribalWarsCloneDomain.Models.Buildings
             Soldiers = new Dictionary<string, Soldier>();
             Soldiers.Add(nameof(SpearSoldier), null);
 
+            
+
             developList = new ConstructionList(Farm);
             SoldierFactory = new SoldierFactory();
 

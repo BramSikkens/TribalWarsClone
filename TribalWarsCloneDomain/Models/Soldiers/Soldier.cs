@@ -10,7 +10,7 @@ namespace TribalWarsCloneDomain.Models.Soldiers
     public abstract class Soldier:IUpgradable
     {
         public SoldierStats Stats { get; set; }
-        public int CurrentLevel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int CurrentLevel { get; set; }
 
         public Soldier(SoldierStats stats)
         {
@@ -19,6 +19,7 @@ namespace TribalWarsCloneDomain.Models.Soldiers
         }
 
         public abstract void Upgrade(IConstructionList buildList);
+        
 
         public abstract void WhenUpgradeIsComplete(object source, ElapsedEventArgs e);
 

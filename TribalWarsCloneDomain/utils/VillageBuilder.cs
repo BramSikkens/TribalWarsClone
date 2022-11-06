@@ -9,15 +9,10 @@ namespace TribalWarsCloneDomain.utils.JSONWorldSettings
 {
     public class VillageBuilder
     {
-       private WorldDTO WorldSettings { get; set; }
        private Village Village { get;set; }
        private IBuildingFactory BuildingFactory { get; set; }
 
-        public VillageBuilder(WorldDTO worldSettings)
-        {
-            WorldSettings = worldSettings;
-            
-        }
+       
 
         public VillageBuilder()
         {

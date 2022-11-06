@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TribalWarsCloneConsole", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TribalWarsCloneDomain", "TribalWarsCloneDomain\TribalWarsCloneDomain.csproj", "{B1A8FBA5-B24B-4904-9C70-8685839577D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TribalWarsCloneApi", "TribalWarsCloneApi\TribalWarsCloneApi.csproj", "{67DC7256-8763-4B8A-BFEA-67A9C6789119}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TribalWarsCloneServer", "TribalWarsCloneServer\TribalWarsCloneServer.csproj", "{EF72C874-B990-4D47-BBCA-E95CA8E50FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{B1A8FBA5-B24B-4904-9C70-8685839577D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1A8FBA5-B24B-4904-9C70-8685839577D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1A8FBA5-B24B-4904-9C70-8685839577D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67DC7256-8763-4B8A-BFEA-67A9C6789119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67DC7256-8763-4B8A-BFEA-67A9C6789119}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67DC7256-8763-4B8A-BFEA-67A9C6789119}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67DC7256-8763-4B8A-BFEA-67A9C6789119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF72C874-B990-4D47-BBCA-E95CA8E50FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF72C874-B990-4D47-BBCA-E95CA8E50FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF72C874-B990-4D47-BBCA-E95CA8E50FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF72C874-B990-4D47-BBCA-E95CA8E50FC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

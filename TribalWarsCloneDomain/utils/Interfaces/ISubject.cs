@@ -12,6 +12,8 @@ namespace TribalWarsCloneDomain.utils
         public void Notify();
     }
 
+   
+
     public interface ISubjectSmithy
     {
         public List<IObserverSmitthy> SmitthyObservers { get; set; }
