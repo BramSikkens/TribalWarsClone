@@ -1,46 +1,26 @@
-﻿using TribalWarsCloneDomain.Models;
+﻿
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System;
+using TribalWarsCloneDomain.Models;
+using TribalWarsCloneServer;
 using TribalWarsCloneServer.Socket;
 using TribalWarsCloneServer.Socket.Messages;
 
-Game newGame = new Game();
 
-//Setup Socket Server
-TcpSocketServer TcpSocketServer = new TcpSocketServer();
-TcpSocketServer.StartServer(443);
-TcpSocketServer.Listen(newGame);
-
-
-public class Game:IObserver
+public class Program
 {
-    //Generate World
-    World world = new World();
-
-   
-
-    public void Update(SocketMessage message)
+    static void Main()
     {
-        Console.WriteLine(message.message);
-        if(message.message == "1")
-        {
-            world.createNewVillage(message.from, "newvillage");
-            Console.WriteLine("new Village Created"); 
-        }
-        if (message.message == "2")
-        {
-            world.Villages[message.from].IronMine.Upgrade(world.Villages[message.from].BuildList);
-            Console.WriteLine("upgrade IronMine");
-        }
-        if (message.message == "3")
-        {
-            world.Villages[message.from].TimberCamp.Upgrade(world.Villages[message.from].BuildList);
-            Console.WriteLine("upgrade TimberCamp");
-        }
-        if (message.message == "4")
-        {
-            world.Villages[message.from].ClayPit.Upgrade(world.Villages[message.from].BuildList);
-            Console.WriteLine("upgrade ClayPit");
-        }
-
+        SocketManager socketManager = new SocketManager();
+        CreateHostBuilder().Build().Run();
+        
+    }
+    public static IHostBuilder CreateHostBuilder()
+    {
+        return Host.CreateDefaultBuilder().ConfigureWebHostDefaults(webHost => {
+            webHost.UseStartup<Startup>();
+        });
     }
 }
 

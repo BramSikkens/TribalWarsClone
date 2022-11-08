@@ -12,7 +12,6 @@ namespace TribalWarsCloneServer.Socket
     public class TcpSocketServer
     {
         private static TcpListener listener { get; set; }
-        //private static TcpClient client { get; set; }
         private static bool accept { get; set; } = false;
 
         public  void StartServer(int port)
@@ -24,7 +23,7 @@ namespace TribalWarsCloneServer.Socket
             Console.WriteLine($"Server Socket started. Listening to TCP clients at 127.0.0.1:{port}");
         }
 
-        public  void Listen(Game game)
+        public async Task Listen()
         {
             int counter = 0;
 
@@ -35,10 +34,9 @@ namespace TribalWarsCloneServer.Socket
                 while (true)
                 {
                     counter += 1;
-                    TcpClient client = listener.AcceptTcpClient(); // Get the client  
-                    Console.WriteLine(" >> " + "Client No:" + Convert.ToString(counter) + " connnected!");
+                    TcpClient client = await listener.AcceptTcpClientAsync(); // Get the client  
                     ClientHandler clientHandler = new ClientHandler();
-                    (clientHandler as ISubject).Attach(game);
+                    (clientHandler as ISubject).Attach(Game.Instance);
                     clientHandler.startClient(client, Convert.ToString(counter));
                 }
 
