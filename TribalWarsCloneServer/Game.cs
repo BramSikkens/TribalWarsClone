@@ -1,4 +1,5 @@
 ﻿using TribalWarsCloneDomain.Models;
+using TribalWarsCloneDomain.utils.JSONWorldSettings;
 using TribalWarsCloneServer.Socket;
 using TribalWarsCloneServer.Socket.Messages;
 
@@ -29,7 +30,10 @@ namespace TribalWarsCloneServer
 
         public void SetupGame()
         {
+            Village v = new VillageBuilder().CreateVillage("bram");
             world = new World();
+            world.Villages.Add("bram",v);
+
         }
 
 

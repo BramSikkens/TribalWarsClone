@@ -6,7 +6,48 @@ using TribalWarsCloneDomain.Models.Soldiers;
 
 namespace TribalWarsCloneDomain.utils.JSONWorldSettings
 {
-    public class WorldSettings
+
+    public interface IWorldSettings
+    {
+        public static bool IronMinebaseBuild;
+        public static int IronMineMaxLevel;
+        public static Dictionary<int, Cost> IronMineProductionCosts;
+        public static bool TimberCampbaseBuild;
+        public static int TimberCampMaxLevel;
+        public static Dictionary<int, Cost> TimberCampProductionCosts;
+        public static bool ClayPitbaseBuild;
+        public static int ClayPitMaxLevel;
+        public static Dictionary<string, Cost> ClayPitProductionCosts;
+        public static bool WarehousebaseBuild;
+        public static int WarehouseMaxLevel;
+        public static Dictionary<string, Cost> WarehouseProductionCosts;
+        public static bool FarmbaseBuild;
+        public static int FarmMaxLevel;
+        public static Dictionary<string, Cost> FarmProductionCosts;
+        public static bool HeadQuartersbaseBuild ;
+        public static int HeadQuartersMaxLevel ;
+        public static Dictionary<string, Cost> HeadQuartersProductionCosts;
+        public static bool RallyPointbaseBuild;
+        public static int RallyPointMaxLevel;
+        public static Dictionary<int, Cost> RallyPointProductionCosts;
+        public static bool SmithybaseBuild;
+        public static int SmithyMaxLevel;
+        public static Dictionary<string, Cost> SmithyProductionCosts;
+        public static Requirement SmithyRequirement;
+        public static Dictionary<int, Cost> SpearSoldierCosts;
+        public static Dictionary<int, Cost> ArcherySoldierCosts;
+        public static Dictionary<int, Cost> SwordrSoldierCosts;
+        public static Dictionary<int, Cost> AxeSoldierCosts;
+        public static Dictionary<int, Cost> SpearSoldierStats;
+        public static Dictionary<int, Cost> ArcherySoldierStats;
+        public static Dictionary<int, Cost> SwordrSoldierStats;
+        public static Dictionary<int, Cost> AxeSoldierStats;
+
+
+    }
+
+
+    public class WorldSettings:IWorldSettings
     {
 
         public static bool IronMinebaseBuild = true;

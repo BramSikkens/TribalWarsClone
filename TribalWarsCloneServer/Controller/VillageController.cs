@@ -4,33 +4,44 @@ using TribalWarsCloneDomain.Models;
 namespace TribalWarsCloneServer.Controller
 {
     [ApiController]
-    [Route("villages/[action]")]
+    [Route("/villages")]
     public class VillageController : ControllerBase
     {
         public VillageController()
         {
             
         }
-        public string Get(string name)
+        [HttpGet]
+        public  IResult Get(string name)
         {
-            Village v = Game.Instance.world.Villages[name];
-            return v.Name;
+            try
+            {
+                Village v = Game.Instance.world.Villages[name];
+                return Results.Ok(v);
+            }
+            catch
+            {
+                return Results.NotFound();
+            }
+         
         }
 
-        public void Post()
-        {
 
+        [HttpPost]
+        public  IResult CreateVillage()
+        {
+            try
+            {
+                Game.Instance.world.createNewVillage("stom", "stom");
+                return Results.Ok(Game.Instance.world.Villages["stom"]);
+            }
+            catch (Exception e)
+            {
+                return Results.NotFound();
+            }
         }
 
-        public void Put()
-        {
-
-        }
-
-        public void Delete(string name)
-        {
-
-        }
+    
 
 
     }
